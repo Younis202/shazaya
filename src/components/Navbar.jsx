@@ -1,70 +1,69 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Search, User, Menu, X, Heart } from 'lucide-react';
+import { ShoppingBag, Search, User, Menu, X, Heart, ChevronLeft } from 'lucide-react';
 
-const navItems = [
-  { label: 'تخفيضات', href: '#offers', className: 'offers' },
-  { label: 'العطور', href: '#products' },
+const links = [
+  { label: 'تخفيضات', href: '#offers', cls: 'sale-link' },
+  { label: 'العطور',    href: '#products' },
   { label: 'المجموعات', href: '#collections' },
-  { label: 'الرجالية', href: '#men' },
-  { label: 'النسائية', href: '#women' },
-  { label: 'الهدايا', href: '#gifts' },
-  { label: 'من نحن', href: '#about' },
+  { label: 'الرجالية',  href: '#men' },
+  { label: 'النسائية',  href: '#women' },
+  { label: 'الهدايا',   href: '#gifts' },
+  { label: 'من نحن',    href: '#about' },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    const fn = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
   return (
     <>
-      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+      <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
         <div className="container">
           <div className="nav-inner">
             <button
-              className="menu-btn"
+              className="menu-toggle"
               onClick={() => setMenuOpen(true)}
               aria-label="فتح القائمة"
             >
-              <Menu size={24} />
+              <Menu size={22} />
             </button>
 
-            <ul className="nav-links">
-              {navItems.map((item) => (
-                <li key={item.label}>
-                  <a href={item.href} className={item.className || ''}>
-                    {item.label}
+            <ul className="nav-links" role="list">
+              {links.map(l => (
+                <li key={l.label}>
+                  <a href={l.href} className={l.cls || ''}>
+                    {l.label}
                   </a>
                 </li>
               ))}
             </ul>
 
-            <a href="#" className="navbar-logo" aria-label="شذايا">
+            <a href="/" className="nav-logo" aria-label="شذايا للعطور">
               <img
                 src="/assets/لوجو_فاضي_1_1776217284462.png"
-                alt="شذايا - Shadaya Perfumes"
+                alt="شذايا Shadaya"
               />
             </a>
 
             <div className="nav-actions">
-              <button className="nav-btn" aria-label="بحث">
-                <Search size={20} strokeWidth={1.8} />
-              </button>
-              <button className="nav-btn" aria-label="حسابي">
-                <User size={20} strokeWidth={1.8} />
-              </button>
-              <button className="nav-btn" aria-label="المفضلة">
-                <Heart size={20} strokeWidth={1.8} />
-              </button>
-              <button className="nav-btn" aria-label="السلة" style={{ position: 'relative' }}>
-                <ShoppingBag size={20} strokeWidth={1.8} />
-                <span className="cart-badge">0</span>
+              <button className="nav-icon-btn" aria-label="بحث"><Search size={19} strokeWidth={1.8} /></button>
+              <button className="nav-icon-btn" aria-label="حسابي"><User size={19} strokeWidth={1.8} /></button>
+              <button className="nav-icon-btn" aria-label="المفضلة"><Heart size={19} strokeWidth={1.8} /></button>
+              <button className="nav-icon-btn" aria-label="السلة" style={{ position: 'relative' }}>
+                <ShoppingBag size={19} strokeWidth={1.8} />
+                <span className="cart-dot">0</span>
               </button>
             </div>
           </div>
@@ -75,41 +74,40 @@ export default function Navbar() {
         {menuOpen && (
           <>
             <motion.div
-              className="mobile-drawer-overlay"
+              className="drawer-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
               onClick={() => setMenuOpen(false)}
             />
             <motion.div
-              className="mobile-drawer"
+              className="drawer"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'tween', duration: 0.28 }}
+              transition={{ type: 'spring', stiffness: 340, damping: 34 }}
             >
-              <div className="drawer-header">
-                <img
-                  src="/assets/لوجو_فاضي_1_1776217284462.png"
-                  alt="شذايا"
-                />
+              <div className="drawer-top">
+                <img src="/assets/لوجو_فاضي_1_1776217284462.png" alt="شذايا" />
                 <button
                   className="drawer-close"
                   onClick={() => setMenuOpen(false)}
                   aria-label="إغلاق"
                 >
-                  <X size={22} />
+                  <X size={18} />
                 </button>
               </div>
-              <ul className="drawer-nav">
-                {navItems.map((item) => (
-                  <li key={item.label}>
+              <ul className="drawer-nav" role="list">
+                {links.map(l => (
+                  <li key={l.label}>
                     <a
-                      href={item.href}
-                      className={item.className || ''}
+                      href={l.href}
+                      className={l.cls || ''}
                       onClick={() => setMenuOpen(false)}
                     >
-                      {item.label}
+                      {l.label}
+                      <ChevronLeft size={16} style={{ opacity: 0.35 }} />
                     </a>
                   </li>
                 ))}

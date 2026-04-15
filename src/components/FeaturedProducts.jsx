@@ -1,132 +1,65 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Heart, Eye } from 'lucide-react';
+import { ShoppingBag, Heart, Eye, ArrowLeft } from 'lucide-react';
 
 const products = [
-  {
-    id: 1,
-    name: 'ليل حالك',
-    sub: 'عطر رجالي | 100 مل',
-    price: '450',
-    oldPrice: '525',
-    discount: '14%',
-    badge: 'جديد',
-    img: '/assets/p1.png',
-  },
-  {
-    id: 2,
-    name: 'وهج الذهبي',
-    sub: 'عطر نسائي | 75 مل',
-    price: '520',
-    oldPrice: null,
-    badge: null,
-    img: '/assets/p2.png',
-  },
-  {
-    id: 3,
-    name: 'نقاء الصباح',
-    sub: 'عطر للجنسين | 100 مل',
-    price: '380',
-    oldPrice: '450',
-    discount: '16%',
-    badge: 'تخفيض',
-    badgeClass: 'sale',
-    img: '/assets/p3.jpg',
-  },
-  {
-    id: 4,
-    name: 'سر المساء',
-    sub: 'عطر رجالي | 100 مل',
-    price: '490',
-    oldPrice: null,
-    badge: 'جديد',
-    img: '/assets/p4.png',
-  },
-  {
-    id: 5,
-    name: 'زهر البرتقال',
-    sub: 'عطر نسائي | 50 مل',
-    price: '320',
-    oldPrice: '380',
-    discount: '16%',
-    badge: null,
-    img: '/assets/p5.jpg',
-  },
-  {
-    id: 6,
-    name: 'عود الملوك',
-    sub: 'عطر رجالي | 100 مل',
-    price: '680',
-    oldPrice: null,
-    badge: 'جديد',
-    img: '/assets/p6.jpg',
-  },
-  {
-    id: 7,
-    name: 'مسك الليل',
-    sub: 'عطر للجنسين | 75 مل',
-    price: '410',
-    oldPrice: '480',
-    discount: '15%',
-    badge: 'تخفيض',
-    badgeClass: 'sale',
-    img: '/assets/p7.jpg',
-  },
-  {
-    id: 8,
-    name: 'أمواج الفضة',
-    sub: 'عطر نسائي | 100 مل',
-    price: '560',
-    oldPrice: null,
-    badge: null,
-    img: '/assets/p8.jpg',
-  },
+  { id:1,  name:'ليل حالك',       sub:'رجالي · 100 مل',   price:450, old:525,  pct:'14%', badge:'new',  img:'/assets/p1.png' },
+  { id:2,  name:'وهج الذهبي',     sub:'نسائي · 75 مل',    price:520, old:null, pct:null,  badge:null,   img:'/assets/p2.png' },
+  { id:3,  name:'نقاء الصباح',    sub:'للجنسين · 100 مل', price:380, old:450,  pct:'16%', badge:'sale', img:'/assets/p3.jpg' },
+  { id:4,  name:'سر المساء',      sub:'رجالي · 100 مل',   price:490, old:null, pct:null,  badge:'new',  img:'/assets/p4.png' },
+  { id:5,  name:'زهر البرتقال',   sub:'نسائي · 50 مل',    price:320, old:380,  pct:'16%', badge:'hot',  img:'/assets/p5.jpg' },
+  { id:6,  name:'عود الملوك',     sub:'رجالي · 100 مل',   price:680, old:null, pct:null,  badge:'new',  img:'/assets/p6.jpg' },
+  { id:7,  name:'مسك الليل',      sub:'للجنسين · 75 مل',  price:410, old:480,  pct:'15%', badge:'sale', img:'/assets/p7.jpg' },
+  { id:8,  name:'أمواج الفضة',    sub:'نسائي · 100 مل',   price:560, old:null, pct:null,  badge:null,   img:'/assets/p8.jpg' },
 ];
 
-function ProductCard({ product, index }) {
+const BADGE = {
+  new:  { cls: 'badge-new',  label: 'جديد' },
+  sale: { cls: 'badge-sale', label: 'تخفيض' },
+  hot:  { cls: 'badge-hot',  label: 'الأكثر مبيعًا' },
+};
+
+function Card({ p, i }) {
   return (
-    <motion.div
+    <motion.article
       className="product-card"
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: (index % 4) * 0.08, duration: 0.5 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ delay: (i % 4) * 0.07, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      <div className="product-card__img-wrap">
-        <img src={product.img} alt={product.name} loading="lazy" />
-        {product.badge && (
-          <span className={`product-badge ${product.badgeClass || ''}`}>
-            {product.badge}
+      <div className="product-img-wrap">
+        <img src={p.img} alt={p.name} loading="lazy" />
+        {p.badge && (
+          <span className={`product-badge ${BADGE[p.badge].cls}`}>
+            {BADGE[p.badge].label}
           </span>
         )}
-        <div className="product-hover-actions">
-          <button className="icon-btn" aria-label="المفضلة" title="أضف للمفضلة">
-            <Heart size={15} />
-          </button>
-          <button className="icon-btn" aria-label="عرض سريع" title="عرض سريع">
-            <Eye size={15} />
-          </button>
+        <div className="product-quick-actions">
+          <button className="quick-btn" aria-label="أضف للمفضلة"><Heart size={14} /></button>
+          <button className="quick-btn" aria-label="عرض سريع"><Eye size={14} /></button>
         </div>
       </div>
 
-      <div className="product-card__info">
-        <div className="product-card__name">{product.name}</div>
-        <div className="product-card__sub">{product.sub}</div>
-        <div className="product-card__price">
-          <span className="price-now">{product.price} <span style={{ fontSize: '0.78rem', fontWeight: 500 }}>ر.س</span></span>
-          {product.oldPrice && (
+      <div className="product-body">
+        <div className="product-name">{p.name}</div>
+        <div className="product-sub">{p.sub}</div>
+        <div className="product-price-row">
+          <span className="price-main">{p.price}</span>
+          <span className="price-currency">ر.س</span>
+          {p.old && (
             <>
-              <span className="price-was">{product.oldPrice} ر.س</span>
-              {product.discount && <span className="price-off">-{product.discount}</span>}
+              <span className="price-old">{p.old} ر.س</span>
+              {p.pct && <span className="price-pct">-{p.pct}</span>}
             </>
           )}
         </div>
-        <button className="add-btn">
-          <ShoppingCart size={14} />
+        <button className="add-cart-btn">
+          <ShoppingBag size={14} strokeWidth={2} />
           إضافة للسلة
         </button>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
 
@@ -136,31 +69,34 @@ export default function FeaturedProducts() {
       <div className="container">
         <motion.div
           className="section-head"
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2>أحدث منتجاتنا</h2>
-          <div className="underline-bar" />
-          <p>اكتشف أرقى العطور الفاخرة المختارة بعناية لك</p>
+          <div className="section-tag">مجموعتنا الحصرية</div>
+          <h2 className="section-title">أحدث منتجاتنا</h2>
+          <p className="section-sub">
+            اكتشف أرقى العطور الفاخرة المختارة بعناية — كل عطر قصة لا تُنسى.
+          </p>
         </motion.div>
 
         <div className="products-grid">
-          {products.map((p, i) => (
-            <ProductCard key={p.id} product={p} index={i} />
-          ))}
+          {products.map((p, i) => <Card key={p.id} p={p} i={i} />)}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
-          <a
-            href="#"
-            className="btn-primary"
-            style={{ display: 'inline-block' }}
-          >
+        <motion.div
+          style={{ textAlign: 'center', marginTop: '3rem' }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          <a href="#" className="btn-ghost-gold">
             عرض جميع المنتجات
+            <ArrowLeft size={15} />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
