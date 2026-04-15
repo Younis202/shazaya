@@ -93,8 +93,8 @@ export default function ShopPage({ onAddToCart, onQuickView }) {
                   className="shop-range"
                 />
                 <div className="shop-price-vals">
-                  <span>50 ج.م</span>
-                  <span className="shop-price-max">{maxPrice} ج.م</span>
+                  <span>50 ر.س</span>
+                  <span className="shop-price-max">{maxPrice} ر.س</span>
                 </div>
               </div>
             </div>

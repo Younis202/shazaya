@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { X, ShoppingCart, Heart, Star, Minus, Plus, Package, RotateCcw, Shield } from 'lucide-react';
-import { useState } from 'react';
 
 export default function QuickView({ product, onClose, onAddToCart }) {
   const [qty, setQty] = useState(1);
@@ -79,12 +78,12 @@ export default function QuickView({ product, onClose, onAddToCart }) {
             <div className="qv-price-row">
               {discount ? (
                 <>
-                  <span className="qv-price-sale">{price} <small>ج.م</small></span>
-                  <span className="qv-price-original">{originalPrice} <small>ج.م</small></span>
+                  <span className="qv-price-sale">{price} <small>ر.س</small></span>
+                  <span className="qv-price-original">{originalPrice} <small>ر.س</small></span>
                   <span className="qv-discount-pill">وفّر {discount}%</span>
                 </>
               ) : (
-                <span className="qv-price-main">{price} <small>ج.م</small></span>
+                <span className="qv-price-main">{price} <small>ر.س</small></span>
               )}
             </div>
 
@@ -127,7 +126,7 @@ export default function QuickView({ product, onClose, onAddToCart }) {
             <div className="qv-badges">
               <div className="qv-badge-item">
                 <Package size={14} />
-                شحن مجاني فوق 500 ج.م
+                شحن مجاني فوق 500 ر.س
               </div>
               <div className="qv-badge-item">
                 <RotateCcw size={14} />

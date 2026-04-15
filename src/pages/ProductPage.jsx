@@ -85,12 +85,12 @@ export default function ProductPage({ onAddToCart, onQuickView }) {
             <div className="pp-price-block">
               {product.discount ? (
                 <>
-                  <span className="pp-price-sale">{product.price} <small>ج.م</small></span>
-                  <span className="pp-price-original">{product.originalPrice} <small>ج.م</small></span>
+                  <span className="pp-price-sale">{product.price} <small>ر.س</small></span>
+                  <span className="pp-price-original">{product.originalPrice} <small>ر.س</small></span>
                   <span className="pp-save-pill">وفّر {product.discount}%</span>
                 </>
               ) : (
-                <span className="pp-price-main">{product.price} <small>ج.م</small></span>
+                <span className="pp-price-main">{product.price} <small>ر.س</small></span>
               )}
             </div>
 
@@ -127,7 +127,7 @@ export default function ProductPage({ onAddToCart, onQuickView }) {
             {/* Trust */}
             <div className="pp-trust">
               <div className="pp-trust-item"><Truck size={15} /><span>شحن سريع خلال 24-48 ساعة</span></div>
-              <div className="pp-trust-item"><Package size={15} /><span>شحن مجاني للطلبات فوق 500 ج.م</span></div>
+              <div className="pp-trust-item"><Package size={15} /><span>شحن مجاني للطلبات فوق 500 ر.س</span></div>
               <div className="pp-trust-item"><RotateCcw size={15} /><span>إرجاع مجاني خلال 14 يوم</span></div>
               <div className="pp-trust-item"><Shield size={15} /><span>منتج أصلي 100% مضمون</span></div>
             </div>
@@ -145,7 +145,7 @@ export default function ProductPage({ onAddToCart, onQuickView }) {
             {activeTab === 'desc' && (
               <div className="pp-tab-body">
                 <p>مستوحى من روائح الطبيعة العربية الأصيلة، يجمع هذا العطر بين قوة الخشب العربي ونعومة المسك الشرقي وزهور البرية الندية. تركيبة فريدة تدوم على البشرة لساعات طويلة، مناسب للمناسبات الخاصة والاستخدام اليومي على حدٍّ سواء.</p>
-                <ul style={{ margin: '16px 0 0', padding: 'right 20px', color: 'var(--text-secondary)', lineHeight: 2 }}>
+                <ul style={{ margin: '16px 0 0', paddingRight: '20px', color: 'var(--text-secondary)', lineHeight: 2 }}>
                   <li>رائحة العائلة: شرقي خشبي</li>
                   <li>الحجم: {product.subtitle?.split('/')[1]?.trim() || '100 مل'}</li>
                   <li>النوع: {product.subtitle?.split('/')[0]?.trim()}</li>

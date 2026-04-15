@@ -55,11 +55,11 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
         <div className="product-card__price">
           {discount ? (
             <>
-              <span className="price-sale">{price} <i className="price-egp">ج.م</i></span>
-              <span className="price-original">{originalPrice} <i className="price-egp">ج.م</i></span>
+              <span className="price-sale">{price} <i className="price-egp">ر.س</i></span>
+              <span className="price-original">{originalPrice} <i className="price-egp">ر.س</i></span>
             </>
           ) : (
-            <span className="price-normal">{price} <i className="price-egp">ج.م</i></span>
+            <span className="price-normal">{price} <i className="price-egp">ر.س</i></span>
           )}
         </div>
         {discount && <span className="discount-label">خصم {discount}%</span>}
