@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "mHWDSGIVvtnRMeNblnNl3"
+uri = "file://public/assets/hero-bg.png"
+type = "image"
+title = "Luxury perfume bottle hero"
+
+[[generated]]
+id = "FnK3V8hVFY8Nkp2B4V27F"
+uri = "file://public/assets/product-1.png"
+type = "image"
+title = "Perfume bottle 1"
+
+[[generated]]
+id = "2TAY9SoTV_qy6BPfiN48J"
+uri = "file://public/assets/product-2.png"
+type = "image"
+title = "Perfume bottle 2"
+
+[[generated]]
+id = "ltTE25gO9co9UP1Qlrviv"
+uri = "file://public/assets/product-3.png"
+type = "image"
+title = "Perfume bottle 3"

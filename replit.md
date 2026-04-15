@@ -1,25 +1,31 @@
 # Project Overview
 
-This is a static Arabic storefront snapshot for Rasasi Perfumes imported from GitHub. The site is served from static HTML and asset files in the project root.
+This project is being converted from a static Rasasi storefront snapshot into a modern React + Vite single-page brand experience for شذايا (Shadaya), a new perfume brand.
+
+## Current Direction
+
+- Brand: شذايا (Shadaya)
+- Type: premium Arabic perfume brand landing/storefront experience
+- Goal: clean, animation-rich, luxury presentation that uses the imported Rasasi snapshot only as UX inspiration
+- Backend: none currently; pure frontend React app
 
 ## Project Structure
 
-- `index.html` - Main entry point for Replit preview and static hosting
-- `مرحبا بكم في متجر الرصاصي للعطور الرسمي.html` - Original imported HTML snapshot
-- `مرحبا بكم في متجر الرصاصي للعطور الرسمي_files/` - Imported CSS, JavaScript, images, fonts, and other static assets
+- `index.html` - Vite HTML entry point
+- `src/main.jsx` - React entry point
+- `src/App.jsx` - Main Shadaya app surface
+- `src/index.css` - Global styling and design system
+- `public/assets/` - Served brand logo assets copied from `attached_assets/`
+- `مرحبا بكم في متجر الرصاصي للعطور الرسمي.html` - Original reference snapshot retained for study
+- `مرحبا بكم في متجر الرصاصي للعطور الرسمي_files/` - Original reference assets retained for study
 
 ## Runtime
 
-- Development server: Python static file server
+- Framework: React + Vite
+- Development command: `npm run dev -- --host 0.0.0.0`
 - Preview port: 5000
-- Host binding: `0.0.0.0`
 
-## Deployment
+## Notes
 
-Configured as a static site. The deployment build copies `index.html`, the original HTML snapshot, and the imported assets directory into `dist/`, then publishes `dist/`.
-
-## Import Fixes
-
-- Added `index.html` as the default preview entry point.
-- Removed or stubbed broken tracking/analytics scripts from the imported snapshot.
-- Rewrote local JavaScript asset references from `.js.download` to `.js` and copied matching files so module scripts are served with the correct JavaScript MIME type.
+- Tracking and analytics from the imported snapshot are not part of the new app.
+- Logos are served from `/assets/لوجو_فاضي_1_1776217284462.png` and `/assets/Untitled-11_1776217284464.png`.
