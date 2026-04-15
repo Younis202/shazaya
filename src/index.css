@@ -824,7 +824,9 @@ ul {
 .hero-slide__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 0%, transparent 35%, rgba(0, 0, 0, 0.18) 100%);
+  background:
+    linear-gradient(to left, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.45) 45%, rgba(0, 0, 0, 0.1) 75%, transparent 100%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 40%);
   pointer-events: none;
   z-index: 1;
 }
