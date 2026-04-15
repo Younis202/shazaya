@@ -6,6 +6,7 @@ import BestOffersSlider from '../components/BestOffersSlider';
 import CategorySlider from '../components/CategorySlider';
 import NewArrivals from '../components/NewArrivals';
 import BrandStory from '../components/BrandStory';
+import Testimonials from '../components/Testimonials';
 import Newsletter from '../components/Newsletter';
 
 export default function HomePage({ onAddToCart, onQuickView }) {
@@ -19,6 +20,7 @@ export default function HomePage({ onAddToCart, onQuickView }) {
       <CategorySlider />
       <NewArrivals onAddToCart={onAddToCart} onQuickView={onQuickView} />
       <BrandStory />
+      <Testimonials />
       <Newsletter />
     </>
   );

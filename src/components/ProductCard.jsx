@@ -1,4 +1,4 @@
-import { Heart, Eye, ShoppingCart } from 'lucide-react';
+import { Heart, Eye, ShoppingCart, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function ProductCard({ product, onAddToCart, onQuickView }) {
@@ -19,11 +19,17 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
       <div className="product-card__image">
         <Link to={`/product/${product.id}`}>
           <img className="product-card__img main" src={img} alt={title} loading="lazy" />
-          {imgHover && <img className="product-card__img hover-img" src={imgHover} alt={title} loading="lazy" />}
+          {imgHover && (
+            <img className="product-card__img hover-img" src={imgHover} alt={title} loading="lazy" />
+          )}
         </Link>
 
-        {discount && <span className="product-card__badge">{discount}%</span>}
-        {isNew && !discount && <span className="product-card__badge new">جديد</span>}
+        {discount && (
+          <span className="product-card__badge discount-badge">-{discount}%</span>
+        )}
+        {isNew && !discount && (
+          <span className="product-card__badge new-badge">جديد</span>
+        )}
 
         <div className="product-card__actions">
           <button className="p-action-btn" title="إضافة للمفضلة" aria-label="مفضلة">
@@ -43,9 +49,14 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
 
         {rating && (
           <div className="product-card__rating">
-            <div className="stars">
+            <div className="card-stars">
               {[...Array(5)].map((_, i) => (
-                <span key={i} style={{ color: i < Math.round(rating) ? '#f59e0b' : '#d1d5db' }}>★</span>
+                <Star
+                  key={i}
+                  size={11}
+                  fill={i < Math.round(rating) ? '#f59e0b' : 'none'}
+                  color={i < Math.round(rating) ? '#f59e0b' : '#d1d5db'}
+                />
               ))}
             </div>
             {reviews && <span className="rating-count">({reviews})</span>}
@@ -55,14 +66,19 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
         <div className="product-card__price">
           {discount ? (
             <>
-              <span className="price-sale">{price} <i className="price-egp">ر.س</i></span>
-              <span className="price-original">{originalPrice} <i className="price-egp">ر.س</i></span>
+              <span className="price-sale">
+                {price} <i className="price-egp">ر.س</i>
+              </span>
+              <span className="price-original">
+                {originalPrice} <i className="price-egp">ر.س</i>
+              </span>
             </>
           ) : (
-            <span className="price-normal">{price} <i className="price-egp">ر.س</i></span>
+            <span className="price-normal">
+              {price} <i className="price-egp">ر.س</i>
+            </span>
           )}
         </div>
-        {discount && <span className="discount-label">خصم {discount}%</span>}
       </div>
 
       <button className="product-card__add-btn" onClick={handleAdd}>

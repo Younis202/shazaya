@@ -21,7 +21,7 @@ A complete, ultra-premium Arabic luxury perfume e-commerce store built with Reac
 - **Port**: 5000
 
 ## Pages
-- `/` — HomePage (hero slider, features bar, collections, wide banner, best offers slider, category slider, new arrivals, brand story, newsletter)
+- `/` — HomePage (hero slider, features bar, collections, wide banner, best offers slider, category slider, new arrivals, brand story, **testimonials**, newsletter)
 - `/shop` — ShopPage (all products with category filter, price range slider, sort dropdown)
 - `/product/:id` — ProductPage (image gallery with thumbs, details, qty selector, tabs: desc/ingredients/reviews, related products)
 - `/about` — AboutPage (brand story, values grid, team, CTA)
@@ -47,7 +47,7 @@ src/
     ├── AnnouncementBar.jsx  # Scrolling marquee top bar
     ├── TopBar.jsx           # Contact/info bar (email, phone, language)
     ├── Navbar.jsx           # Sticky nav with dropdown menus, mobile hamburger, cart badge
-    ├── HeroSlider.jsx       # Full-width hero image slider (fade effect, autoplay)
+    ├── HeroSlider.jsx       # Full-width hero slider with Framer Motion text overlay, CTAs, stats bar
     ├── FeaturesBar.jsx      # 4-column features strip (shipping, quality, support, returns)
     ├── Collections.jsx      # 6-column collections grid with hover animations
     ├── WideBanner.jsx       # Wide promotional banner image link
@@ -56,6 +56,7 @@ src/
     ├── NewArrivals.jsx      # New products Swiper slider
     ├── ProductCard.jsx      # Reusable card (hover image swap, quick-view, add-to-cart)
     ├── BrandStory.jsx       # Brand about section (dark bg + gold accents)
+    ├── Testimonials.jsx     # Customer reviews Swiper carousel (dark bg, glassmorphism cards)
     ├── Newsletter.jsx       # Email signup with success state
     ├── Footer.jsx           # 4-col footer: brand, links, info, contact + payment icons
     ├── CartDrawer.jsx       # Slide-in cart panel with items, remove, total
@@ -68,6 +69,10 @@ src/
 ## Key Design Notes
 - Navbar is transparent with white text at hero top → becomes white bg + dark text on scroll
 - Hero slider uses negative margin-top to overlap navbar for cinematic full-bleed effect
+- Hero has Framer Motion animated text overlay (AnimatePresence per slide), gold gradient CTAs, and a stats bar at the bottom
+- Testimonials section uses dark bg + glassmorphism cards with SVG star ratings
+- Category cards and Collection cards have hover overlay effects
+- ProductCard uses SVG Star icons (lucide-react) instead of text characters
 - All CSS is in one file (`src/index.css`) — no separate component CSS files
 - All fonts served locally from `/public/fonts/` — zero external font dependency
 
