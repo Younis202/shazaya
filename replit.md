@@ -1,31 +1,39 @@
-# Project Overview
+# شذايا (Shadaya) - متجر عطور React
 
-This project is being converted from a static Rasasi storefront snapshot into a modern React + Vite single-page brand experience for شذايا (Shadaya), a new perfume brand.
+## نظرة عامة
+متجر إلكتروني لبراند عطور شذايا مبني بـ React + Vite، مستوحى من تصميم متجر الرصاصي (store.rasasi.com.sa).
 
-## Current Direction
+## المكونات
 
-- Brand: شذايا (Shadaya)
-- Type: premium Arabic perfume brand landing/storefront experience
-- Goal: clean, animation-rich, luxury presentation that uses the imported Rasasi snapshot only as UX inspiration
-- Backend: none currently; pure frontend React app
+| الملف | الوظيفة |
+|---|---|
+| `src/App.jsx` | الجذر - يجمع كل المكونات |
+| `src/index.css` | نظام التصميم الكامل (أبيض + ذهبي + RTL) |
+| `src/components/AnnouncementBar.jsx` | شريط الإعلانات المتحرك في الأعلى |
+| `src/components/TopBar.jsx` | شريط البريد واللغة |
+| `src/components/Navbar.jsx` | الهيدر: شعار + قائمة + بحث + سلة |
+| `src/components/HeroBanner.jsx` | البانر الرئيسي مع سلايدر وأنيميشن |
+| `src/components/FeaturedProducts.jsx` | شبكة المنتجات (4 أعمدة) |
+| `src/components/Features.jsx` | شريط المميزات (شحن، جودة، إرجاع، دعم) |
+| `src/components/Footer.jsx` | الفوتر الداكن مع الروابط وبوابات الدفع |
 
-## Project Structure
+## الأصول
+- `public/assets/لوجو_فاضي_1_1776217284462.png` - شعار شذايا
+- `public/assets/hero-bg.png` - صورة البانر الرئيسي
+- `public/assets/p1.png ... p8.jpg` - صور المنتجات (منقولة من ملفات الرصاصي)
+- `public/assets/pay-*.png` - أيقونات بوابات الدفع
 
-- `index.html` - Vite HTML entry point
-- `src/main.jsx` - React entry point
-- `src/App.jsx` - Main Shadaya app surface
-- `src/index.css` - Global styling and design system
-- `public/assets/` - Served brand logo assets copied from `attached_assets/`
-- `مرحبا بكم في متجر الرصاصي للعطور الرسمي.html` - Original reference snapshot retained for study
-- `مرحبا بكم في متجر الرصاصي للعطور الرسمي_files/` - Original reference assets retained for study
+## نظام الألوان
+- الخلفية: `#ffffff` أبيض نظيف
+- اللون الأساسي: `#ad8538` ذهبي
+- النص: `#111827`
+- الفوتر: `#0a0a0a` أسود داكن
 
-## Runtime
+## التشغيل
+- Framework: React 19 + Vite 8
+- Port: 5000
+- Command: `npm run dev -- --host 0.0.0.0`
 
-- Framework: React + Vite
-- Development command: `npm run dev -- --host 0.0.0.0`
-- Preview port: 5000
-
-## Notes
-
-- Tracking and analytics from the imported snapshot are not part of the new app.
-- Logos are served from `/assets/لوجو_فاضي_1_1776217284462.png` and `/assets/Untitled-11_1776217284464.png`.
+## ملاحظات
+- الملف الأصلي `مرحبا بكم في متجر الرصاصي للعطور الرسمي.html` محتفظ به كمرجع
+- جميع مكونات Salla / Web Components المعقدة تم استبدالها بـ React نظيف
