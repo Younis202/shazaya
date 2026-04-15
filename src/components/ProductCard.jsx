@@ -1,8 +1,8 @@
 import { Heart, Eye, ShoppingCart } from 'lucide-react';
 
 export default function ProductCard({ product, onAddToCart }) {
-  const { title, subtitle, img, imgHover, price, originalPrice, discount, isNew, rating, reviews, category } = product;
-  
+  const { title, subtitle, img, imgHover, price, originalPrice, discount, isNew, rating, reviews } = product;
+
   const handleAdd = (e) => {
     e.preventDefault();
     if (onAddToCart) onAddToCart(product);
@@ -49,11 +49,11 @@ export default function ProductCard({ product, onAddToCart }) {
         <div className="product-card__price">
           {discount ? (
             <>
-              <span className="price-sale">{price} <i className="price-sar">ر.س</i></span>
-              <span className="price-original">{originalPrice} <i className="price-sar">ر.س</i></span>
+              <span className="price-sale">{price} <i className="price-egp">ج.م</i></span>
+              <span className="price-original">{originalPrice} <i className="price-egp">ج.م</i></span>
             </>
           ) : (
-            <span className="price-normal">{price} <i className="price-sar">ر.س</i></span>
+            <span className="price-normal">{price} <i className="price-egp">ج.م</i></span>
           )}
         </div>
         {discount && <span className="discount-label">خصم {discount}%</span>}

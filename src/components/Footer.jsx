@@ -15,16 +15,16 @@ const FOOTER_LINKS = {
     { label: 'الشروط والأحكام', href: '#' },
     { label: 'سياسة الإرجاع', href: '#' },
     { label: 'تتبع طلبك', href: '#' },
+    { label: 'اتصل بنا', href: '#' },
   ],
 };
 
 const SOCIALS = [
   { label: 'إنستغرام', char: '📸', href: '#' },
   { label: 'تيك توك', char: '🎵', href: '#' },
-  { label: 'سناب شات', char: '👻', href: '#' },
-  { label: 'تويتر', char: '✕', href: '#' },
+  { label: 'فيسبوك', char: 'f', href: '#' },
   { label: 'يوتيوب', char: '▶', href: '#' },
-  { label: 'واتساب', icon: <MessageCircle size={15} />, href: 'https://wa.me/966500000000' },
+  { label: 'واتساب', icon: <MessageCircle size={15} />, href: 'https://wa.me/201000000000' },
 ];
 
 export default function Footer() {
@@ -33,11 +33,10 @@ export default function Footer() {
       <div className="footer__main">
         <div className="container">
           <div className="footer__grid">
-            {/* Brand */}
             <div>
               <img src="/assets/logo.png" alt="شذايا" className="footer__logo" />
               <p className="footer__brand-desc">
-                شذايا — براند عطور سعودي فاخر. نؤمن بأن لكل شخص قصة تستحق أن تُروى برائحة مميزة. عطوراً تصنع الأثر، وتبقى في الذاكرة.
+                شذايا — براند عطور مصري فاخر. نؤمن بأن لكل شخص قصة تستحق أن تُروى برائحة مميزة. عطوراً تصنع الأثر، وتبقى في الذاكرة.
               </p>
               <div className="footer__social">
                 {SOCIALS.map((s, i) => (
@@ -48,7 +47,6 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Shop */}
             <div>
               <h4 className="footer__col-title">تسوق</h4>
               <ul className="footer__links">
@@ -58,7 +56,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Info */}
             <div>
               <h4 className="footer__col-title">معلومات</h4>
               <ul className="footer__links">
@@ -68,7 +65,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Contact */}
             <div>
               <h4 className="footer__col-title">تواصل معنا</h4>
               <div className="footer__contact">
@@ -76,21 +72,21 @@ export default function Footer() {
                   <div className="footer__contact-icon"><Mail size={14} /></div>
                   <div className="footer__contact-text">
                     <div className="footer__contact-label">البريد الإلكتروني</div>
-                    <a href="mailto:info@shadaya.sa" style={{ color: 'rgba(255,255,255,0.65)' }}>info@shadaya.sa</a>
+                    <a href="mailto:info@shadaya.eg" style={{ color: 'rgba(255,255,255,0.65)' }}>info@shadaya.eg</a>
                   </div>
                 </div>
                 <div className="footer__contact-item">
                   <div className="footer__contact-icon"><Phone size={14} /></div>
                   <div className="footer__contact-text">
                     <div className="footer__contact-label">الهاتف / واتساب</div>
-                    <a href="tel:+966500000000" dir="ltr" style={{ color: 'rgba(255,255,255,0.65)' }}>+966 50 000 0000</a>
+                    <a href="tel:+201000000000" dir="ltr" style={{ color: 'rgba(255,255,255,0.65)' }}>+20 10 0000 0000</a>
                   </div>
                 </div>
                 <div className="footer__contact-item">
                   <div className="footer__contact-icon"><MapPin size={14} /></div>
                   <div className="footer__contact-text">
                     <div className="footer__contact-label">العنوان</div>
-                    <span>الرياض، المملكة العربية السعودية</span>
+                    <span>القاهرة، جمهورية مصر العربية</span>
                   </div>
                 </div>
               </div>

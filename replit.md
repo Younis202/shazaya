@@ -3,13 +3,25 @@
 ## Project Overview
 A complete, ultra-premium Arabic luxury perfume brand e-commerce store built with React 19 + Vite. Full RTL (right-to-left) Arabic interface, gold/black/white design palette, Swiper sliders, and Framer Motion animations.
 
+## Brand Identity
+- **Type**: Egyptian luxury perfume brand (مصري - not Saudi)
+- **Currency**: Egyptian Pound (ج.م)
+- **Contact**: info@shadaya.eg / +20 10 0000 0000 / القاهرة، مصر
+- **WhatsApp**: +201000000000
+
 ## Tech Stack
 - **Framework**: React 19 + Vite 8
 - **Styling**: Custom CSS design system (no Tailwind)
+- **Fonts**: PingARLT (local, all 9 weights in /public/fonts/)
 - **Sliders**: Swiper.js with Navigation, Pagination, Autoplay, EffectFade
 - **Icons**: lucide-react
 - **Language**: Arabic (RTL)
 - **Port**: 5000
+
+## Key Design Notes
+- Navbar: transparent with white text at top, white background + dark text on scroll
+- Hero slider overlaps with transparent navbar (margin-top: -header-h) for cinematic effect
+- All fonts served locally from /public/fonts/ — no Google Fonts dependency
 
 ## Architecture
 ```
