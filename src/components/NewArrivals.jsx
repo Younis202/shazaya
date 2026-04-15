@@ -1,68 +1,67 @@
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay } from 'swiper/modules';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowUpLeft } from 'lucide-react';
 import ProductCard from './ProductCard';
+import { ALL_PRODUCTS } from '../data/products';
 
-const NEW_PRODUCTS = [
-  { id: 11, title: 'ماء عطر فجر شذايا', subtitle: 'للجنسين / 100 مل', img: '/assets/prod-new-1.png', price: '345', isNew: true, rating: 5, reviews: 3 },
-  { id: 12, title: 'عطر ليل القمر', subtitle: 'نسائي / 75 مل', img: '/assets/prod-new-2.jpg', price: '289', isNew: true, rating: 4.8, reviews: 6 },
-  { id: 13, title: 'بخور الورود الفاخر', subtitle: 'للجنسين / 100 جرام', img: '/assets/prod-new-3.jpg', price: '215', isNew: true, rating: 4.7, reviews: 9 },
-  { id: 14, title: 'دهن الكشمير', subtitle: 'رجالي / 12 مل', img: '/assets/prod-new-4.png', price: '175', isNew: true, rating: 4.9, reviews: 2 },
-  { id: 15, title: 'ماء عطر الصحراء', subtitle: 'رجالي / 100 مل', img: '/assets/prod-new-5.png', price: '265', isNew: true, rating: 4.6, reviews: 11 },
-  { id: 16, title: 'بخور التراث العربي', subtitle: 'للجنسين / 50 جرام', img: '/assets/prod-new-6.png', price: '189', isNew: true, rating: 4.5, reviews: 4 },
-  { id: 17, title: 'عطر الياسمين والعنبر', subtitle: 'نسائي / 50 مل', img: '/assets/prod-new-7.png', price: '235', isNew: true, rating: 5, reviews: 1 },
-  { id: 18, title: 'ماء عطر الأرز', subtitle: 'للجنسين / 100 مل', img: '/assets/prod-new-8.png', price: '298', isNew: true, rating: 4.7, reviews: 7 },
-];
+const NEW_PRODS = ALL_PRODUCTS.filter(p => p.isNew);
 
 export default function NewArrivals({ onAddToCart, onQuickView }) {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
+  const headerRef = useRef(null);
+  const isHeaderInView = useInView(headerRef, { once: true, margin: '-100px' });
 
   return (
-    <section className="section-padding">
-      <div className="container">
-        <div className="section-head--flex">
-          <div className="section-head">
-            <h2 className="section-title">وصل حديثاً</h2>
-            <p className="section-subtitle">أحدث إصدارات شذايا الفاخرة</p>
-            <span className="title-border" />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <a href="#" className="view-all-link">عرض الكل</a>
-            <div className="slider-nav">
-              <button className="s-nav-btn" ref={prevRef} aria-label="السابق"><ChevronRight size={15} /></button>
-              <button className="s-nav-btn" ref={nextRef} aria-label="التالي"><ChevronLeft size={15} /></button>
-            </div>
-          </div>
+    <section style={{ padding: '64px 24px 80px' }}>
+      <motion.div
+        ref={headerRef}
+        initial={{ opacity: 0, y: 40 }}
+        animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 max-w-screen-xl mx-auto"
+      >
+        <div>
+          <p className="font-body mb-5" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+            أحدث الإصدارات
+          </p>
+          <motion.span
+            className="luxury-divider mb-6"
+            initial={{ scaleX: 0 }}
+            animate={isHeaderInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.77, 0, 0.175, 1] }}
+            style={{ display: 'block', transformOrigin: 'right' }}
+          />
+          <h2
+            className="font-display leading-[0.95]"
+            style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', fontWeight: 300, color: 'hsl(36 20% 90%)' }}
+          >
+            وصل <span style={{ fontStyle: 'italic' }}>حديثاً</span>
+          </h2>
         </div>
-
-        <Swiper
-          className="products-swiper"
-          modules={[Navigation, Autoplay]}
-          slidesPerView={2}
-          spaceBetween={14}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
-          navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
-          onBeforeInit={(swiper) => {
-            swiper.params.navigation.prevEl = prevRef.current;
-            swiper.params.navigation.nextEl = nextRef.current;
-          }}
-          breakpoints={{
-            480: { slidesPerView: 2, spaceBetween: 14 },
-            768: { slidesPerView: 3, spaceBetween: 16 },
-            1024: { slidesPerView: 4, spaceBetween: 18 },
-            1280: { slidesPerView: 5, spaceBetween: 18 },
-          }}
-          dir="rtl"
-
+        <Link
+          to="/shop"
+          className="mt-8 md:mt-0 inline-flex items-center gap-3 font-body"
+          style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)', transition: 'color 0.4s' }}
+          onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(38 58% 52%)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(36 10% 50%)'}
         >
-          {NEW_PRODUCTS.map((p) => (
-            <SwiperSlide key={p.id}>
-              <ProductCard product={p} onAddToCart={onAddToCart} onQuickView={onQuickView} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <span>عرض الجميع</span>
+          <ArrowUpLeft size={12} strokeWidth={1.5} />
+        </Link>
+      </motion.div>
+
+      <div className="max-w-screen-xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
+        {NEW_PRODS.slice(0, 8).map((product, i) => (
+          <motion.div
+            key={product.id}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 1, delay: (i % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <ProductCard product={product} onAddToCart={onAddToCart} onQuickView={onQuickView} />
+          </motion.div>
+        ))}
       </div>
     </section>
   );

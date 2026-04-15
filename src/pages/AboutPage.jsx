@@ -1,295 +1,206 @@
-import { Sparkles, Star, Heart, Award, Droplets, Flower2, Wind, Flame, ArrowLeft, CheckCircle } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-const VALUES = [
-  {
-    icon: <Sparkles size={24} />,
-    title: 'الأصالة',
-    desc: 'نؤمن بأن الجمال الحقيقي ينبع من الأصالة. كل عطر نصنعه يحمل هوية عربية حقيقية لا تُنكر.',
-    color: '#ad8538',
-  },
-  {
-    icon: <Star size={24} />,
-    title: 'الجودة',
-    desc: 'نختار أرقى المكونات الطبيعية من أفضل مصادرها حول العالم لضمان تجربة فريدة لا مثيل لها.',
-    color: '#875f12',
-  },
-  {
-    icon: <Heart size={24} />,
-    title: 'الشغف',
-    desc: 'خلف كل قارورة شذايا قصة شغف حقيقي بعالم العطور والحضارة العربية العريقة الأصيلة.',
-    color: '#ef4444',
-  },
-  {
-    icon: <Award size={24} />,
-    title: 'الابتكار',
-    desc: 'نمزج بين الموروث العطري العربي والرؤية المعاصرة لنقدم تجارب شمية لا مثيل لها في عالم العطور.',
-    color: '#8b5cf6',
-  },
-];
-
-const INGREDIENTS = [
-  {
-    icon: <Flame size={28} />,
-    name: 'العود الكمبودي',
-    origin: 'كمبوديا',
-    desc: 'أغلى خشب في العالم، دخاني وعميق، يمنح العطر حضوراً ملكياً لا يُنسى ويدوم ساعات طويلة.',
-    gradient: 'from-amber-900 to-amber-700',
-    bg: '#2d1a00',
-  },
-  {
-    icon: <Flower2 size={28} />,
-    name: 'ورد الطائف',
-    origin: 'المملكة العربية السعودية',
-    desc: 'أشهر الورود العربية، يُعصر بالبرد للحفاظ على زيوته النادرة ذات العبق الفريد والمميز.',
-    gradient: 'from-rose-900 to-rose-700',
-    bg: '#2d0010',
-  },
-  {
-    icon: <Wind size={28} />,
-    name: 'المسك الأبيض',
-    origin: 'الهند',
-    desc: 'الخاتمة الحريرية لكل تركيبة شذايا، يثبت العطر على الجلد ويمنحه نعومة استثنائية ودفئاً.',
-    gradient: 'from-slate-800 to-slate-600',
-    bg: '#0a0a14',
-  },
-  {
-    icon: <Droplets size={28} />,
-    name: 'العنبر الرمادي',
-    origin: 'المحيطات',
-    desc: 'كنز المحيطات النادر، يضيف عمقاً أسطورياً وثباتاً لا يُضاهى للعطر يدوم أياماً على البشرة.',
-    gradient: 'from-zinc-800 to-zinc-600',
-    bg: '#141414',
-  },
-];
-
 const MILESTONES = [
-  { year: '2019', title: 'البداية', desc: 'انطلقت شذايا من حلم مصري بسيط — نقل روح العطر العربي للعالم.' },
-  { year: '2020', title: 'أول مجموعة', desc: 'أطلقنا مجموعتنا الأولى من 10 عطور، حققت صدى واسعاً في السوق المحلي.' },
-  { year: '2022', title: 'التوسع', desc: 'تجاوزنا 5,000 عميل راضٍ وأطلقنا خط البخور والدهون الفاخرة.' },
-  { year: '2024', title: 'الانتشار', desc: 'وصلنا لأكثر من 10,000 عميل في مصر والخليج، وأطلقنا 50+ عطراً فريداً.' },
+  { year: '٢٠١٩', title: 'البداية', desc: 'انطلقت شذايا من حلم مصري — نقل روح العطر العربي للعالم.' },
+  { year: '٢٠٢٠', title: 'أول مجموعة', desc: 'أطلقنا مجموعتنا الأولى من ١٠ عطور وحققت صدى واسعاً.' },
+  { year: '٢٠٢٢', title: 'التوسع', desc: 'تجاوزنا ٥٠٠٠ عميل راضٍ وأطلقنا خط البخور والدهون الفاخرة.' },
+  { year: '٢٠٢٤', title: 'الانتشار', desc: 'وصلنا لأكثر من ١٠٠٠٠ عميل في مصر والخليج.' },
+  { year: '٢٠٢٦', title: 'المستقبل', desc: 'مجموعة جديدة تجمع بين الموروث والحداثة في تجربة غير مسبوقة.' },
 ];
 
-const PROMISES = [
-  'مكونات طبيعية 100% بلا إضافات ضارة',
-  'تغليف فاخر يحكي قصة براند أصيل',
-  'ثبات استثنائي يصل لـ 12 ساعة',
-  'شحن سريع مع ضمان الجودة الكاملة',
+const VALUES = [
+  { num: '01', title: 'الأصالة', desc: 'نؤمن بأن الجمال الحقيقي ينبع من الأصالة. كل عطر يحمل هوية عربية لا تُنكر.' },
+  { num: '02', title: 'الجودة', desc: 'نختار أرقى المكونات الطبيعية من أفضل مصادرها لضمان تجربة فريدة.' },
+  { num: '03', title: 'الشغف', desc: 'خلف كل قارورة شذايا قصة شغف حقيقي بعالم العطور والحضارة العربية.' },
+  { num: '04', title: 'الابتكار', desc: 'نمزج الموروث العطري مع الرؤية المعاصرة لتقديم تجارب شمية لا مثيل لها.' },
 ];
+
+function SectionHeader({ label, title, titleItalic }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="mb-16"
+    >
+      <p className="font-body mb-5" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+        {label}
+      </p>
+      <motion.span
+        className="luxury-divider mb-6"
+        initial={{ scaleX: 0 }}
+        animate={isInView ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.2, ease: [0.77, 0, 0.175, 1] }}
+        style={{ display: 'block', transformOrigin: 'right' }}
+      />
+      <h2
+        className="font-display leading-[0.95]"
+        style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', fontWeight: 300, color: 'hsl(36 20% 90%)' }}
+      >
+        {title}{' '}<span style={{ fontStyle: 'italic' }}>{titleItalic}</span>
+      </h2>
+    </motion.div>
+  );
+}
+
+function MilestoneItem({ item, index }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-40px' });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      className="group py-7"
+      style={{ borderBottom: '1px solid hsl(36 10% 16% / 0.3)', transition: 'border-color 0.4s' }}
+      onMouseEnter={(e) => e.currentTarget.style.borderBottomColor = 'hsl(38 58% 52% / 0.3)'}
+      onMouseLeave={(e) => e.currentTarget.style.borderBottomColor = 'hsl(36 10% 16% / 0.3)'}
+    >
+      <div className="flex items-start gap-10 md:gap-16">
+        <span className="font-display flex-shrink-0" style={{ fontSize: '1.5rem', fontWeight: 300, color: 'hsl(38 58% 52%)', minWidth: '70px' }}>{item.year}</span>
+        <div>
+          <h3 className="font-display mb-2" style={{ fontSize: '1.4rem', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>{item.title}</h3>
+          <p className="font-body" style={{ fontSize: '13px', color: 'hsl(36 10% 50%)', lineHeight: 1.7 }}>{item.desc}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function ValueCard({ item, index }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-40px' });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className="p-8"
+      style={{ border: '1px solid hsl(36 10% 16% / 0.4)' }}
+    >
+      <div className="flex items-start gap-6">
+        <span className="font-display" style={{ fontSize: '3.5rem', fontWeight: 300, color: 'hsl(36 20% 90% / 0.06)', lineHeight: 1, flexShrink: 0 }}>{item.num}</span>
+        <div>
+          <h3 className="font-display mb-3" style={{ fontSize: '1.4rem', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>{item.title}</h3>
+          <p className="font-body" style={{ fontSize: '13px', lineHeight: 1.8, color: 'hsl(36 10% 50%)' }}>{item.desc}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function AboutPage() {
-  return (
-    <div className="about-page">
+  const heroRef = useRef(null);
+  const isHeroInView = useInView(heroRef, { once: true });
+  const storyRef = useRef(null);
+  const isStoryInView = useInView(storyRef, { once: true, margin: '-100px' });
 
-      {/* ====== CINEMATIC HERO ====== */}
-      <div className="about-hero">
-        <div className="about-hero__bg-pattern" />
-        <div className="about-hero__bottle-deco">
-          <svg viewBox="0 0 200 340" fill="none" xmlns="http://www.w3.org/2000/svg" className="about-bottle-svg">
-            <rect x="82" y="2" width="36" height="20" rx="6" stroke="currentColor" strokeWidth="2.5" />
-            <rect x="70" y="20" width="60" height="12" rx="4" stroke="currentColor" strokeWidth="2.5" />
-            <path d="M50 50 Q35 100 35 160 Q35 240 50 290 Q65 320 100 320 Q135 320 150 290 Q165 240 165 160 Q165 100 150 50 Q135 34 100 32 Q65 34 50 50Z" stroke="currentColor" strokeWidth="2.5" fill="none" />
-            <path d="M60 100 Q50 140 50 180 Q50 230 65 270" stroke="currentColor" strokeWidth="1.2" strokeDasharray="4 4" opacity="0.4" />
-            <path d="M75 65 Q68 80 65 100" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
-            <ellipse cx="100" cy="200" rx="38" ry="55" stroke="currentColor" strokeWidth="1" opacity="0.15" />
-          </svg>
+  return (
+    <div>
+      <div
+        className="relative overflow-hidden flex items-end"
+        style={{ height: '80vh', minHeight: '520px', paddingBottom: '80px', paddingTop: '120px' }}
+      >
+        <div className="absolute inset-0">
+          <img src="/assets/brand-story.webp" alt="" className="w-full h-full object-cover" style={{ filter: 'brightness(0.15)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, hsl(36 18% 5%) 0%, hsl(36 18% 5% / 0.6) 60%, transparent 100%)' }} />
         </div>
-        <div className="container about-hero__inner">
-          <span className="about-hero__label">
-            <Sparkles size={12} /> من القاهرة إلى العالم
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+          <span className="font-display" style={{ fontSize: 'clamp(10rem, 28vw, 28rem)', fontWeight: 300, color: 'transparent', WebkitTextStroke: '1px hsl(36 20% 90% / 0.025)' }}>
+            شذايا
           </span>
-          <h1 className="about-hero__title">
-            نصنع أثراً<br />
-            <em>لا يُنسى</em>
-          </h1>
-          <p className="about-hero__desc">
-            شذايا ليس مجرد براند عطور — هو رحلة حسية تجمع بين عمق الموروث العربي ورقي العصر الحديث
-          </p>
-          <div className="about-hero__stats">
-            <div className="about-hero__stat">
-              <span className="about-hero__stat-num">+50</span>
-              <span className="about-hero__stat-label">عطراً فريداً</span>
-            </div>
-            <div className="about-hero__stat-divider" />
-            <div className="about-hero__stat">
-              <span className="about-hero__stat-num">+10K</span>
-              <span className="about-hero__stat-label">عميل سعيد</span>
-            </div>
-            <div className="about-hero__stat-divider" />
-            <div className="about-hero__stat">
-              <span className="about-hero__stat-num">5+</span>
-              <span className="about-hero__stat-label">سنوات خبرة</span>
-            </div>
-          </div>
         </div>
-        <div className="about-hero__scroll-line" />
+        <div ref={heroRef} className="relative z-10 w-full px-6 md:px-12 max-w-screen-xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="font-body mb-5" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+              من القاهرة إلى العالم
+            </p>
+            <h1 className="font-display leading-[0.9]" style={{ fontSize: 'clamp(3.5rem, 9vw, 9rem)', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>
+              نصنع أثراً<br /><span style={{ fontStyle: 'italic' }}>لا يُنسى</span>
+            </h1>
+          </motion.div>
+        </div>
       </div>
 
-      {/* ====== STORY SECTION ====== */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="about-story-grid">
-            <div className="about-story-imgs">
-              <div className="about-img-main">
-                <img src="/assets/brand-story.webp" alt="شذايا" />
-                <div className="about-img-main__overlay">
-                  <span className="about-img-badge">منذ 2019</span>
-                </div>
-              </div>
-              <div className="about-img-sec">
-                <img src="/assets/brand-story-2.webp" alt="شذايا" />
-              </div>
-              <div className="about-img-float">
-                <img src="/assets/brand-story-3.webp" alt="شذايا" />
-              </div>
-            </div>
-            <div className="about-story-text">
-              <span className="brand-story__tag"><Sparkles size={12} /> بداية شذايا</span>
-              <h2 className="about-heading">من حلم مصري<br /><span>إلى براند عالمي</span></h2>
-              <p className="about-para">
-                بدأت قصة شذايا في قلب القاهرة، حين قررنا أن نحمل موروثنا العطري الأصيل ونعيد صياغته بلغة العصر. آمنّا بأن العطر ليس مجرد رائحة — بل هو هوية وذاكرة وحكاية تُروى بلا كلام.
-              </p>
-              <p className="about-para">
-                من مصر إلى العالم، نحمل معنا عبق التراث وعمق الجذور، ونُقدّمه في قوارير تجمع بين الأناقة الشرقية والحداثة العصرية. كل منتج من شذايا هو وعد بتجربة حسية لا تُنسى.
-              </p>
-
-              <div className="about-promises">
-                {PROMISES.map((p, i) => (
-                  <div key={i} className="about-promise-item">
-                    <CheckCircle size={16} className="about-promise-icon" />
-                    <span>{p}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="about-stats">
-                <div className="about-stat">
-                  <span className="about-stat-num">+50</span>
-                  <span className="about-stat-label">عطراً فريداً</span>
-                </div>
-                <div className="about-stat">
-                  <span className="about-stat-num">+10K</span>
-                  <span className="about-stat-label">عميل سعيد</span>
-                </div>
-                <div className="about-stat">
-                  <span className="about-stat-num">5+</span>
-                  <span className="about-stat-label">سنوات خبرة</span>
-                </div>
-              </div>
-              <Link to="/shop" className="btn btn-gold" style={{ marginTop: '8px', width: 'fit-content' }}>
-                <ArrowLeft size={15} />
-                تسوق المجموعة
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ====== INGREDIENTS SHOWCASE ====== */}
-      <section className="about-ingredients-section">
-        <div className="about-ingredients-deco" />
-        <div className="container">
-          <div className="section-head">
-            <span className="about-section-tag">مكونات الرقي</span>
-            <h2 className="section-title" style={{ color: '#fff' }}>من أرقى مصادر الطبيعة</h2>
-            <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.55)' }}>
-              نختار بعناية أجود المكونات من أصقاع العالم لنصنع عطوراً تدوم في الذاكرة
+      <section style={{ padding: '80px 24px' }}>
+        <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <SectionHeader label="قصتنا" title="من حلم" titleItalic="إلى عالم" />
+          <motion.div
+            ref={storyRef}
+            initial={{ opacity: 0, y: 30 }}
+            animate={isStoryInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="font-body mb-6" style={{ fontSize: '15px', lineHeight: 1.9, color: 'hsl(36 10% 50%)' }}>
+              بدأت قصة شذايا في قلب القاهرة، حين قررنا أن نحمل موروثنا العطري الأصيل ونعيد صياغته بلغة العصر. آمنّا بأن العطر ليس مجرد رائحة — بل هو هوية وذاكرة وحكاية تُروى بلا كلام.
             </p>
-            <span className="title-border" style={{ margin: '0 auto' }} />
-          </div>
-
-          <div className="about-ingredients-grid">
-            {INGREDIENTS.map((ing, i) => (
-              <div key={i} className="about-ingredient-card">
-                <div className="about-ingredient-icon-wrap">
-                  {ing.icon}
+            <p className="font-body mb-8" style={{ fontSize: '15px', lineHeight: 1.9, color: 'hsl(36 10% 50%)' }}>
+              من مصر إلى العالم، نحمل معنا عبق التراث وعمق الجذور، ونُقدّمه في قوارير تجمع بين الأناقة الشرقية والحداثة العصرية.
+            </p>
+            <div className="flex items-center gap-10 pt-8" style={{ borderTop: '1px solid hsl(36 10% 16% / 0.3)' }}>
+              {[
+                { num: '+٥٠', label: 'عطراً' },
+                { num: '+١٠K', label: 'عميل' },
+                { num: '٥★', label: 'تقييم' },
+              ].map((s, i) => (
+                <div key={i} className="text-center">
+                  <span className="font-display block" style={{ fontSize: '2.2rem', fontWeight: 300, color: 'hsl(38 58% 52%)' }}>{s.num}</span>
+                  <p className="font-body mt-1" style={{ fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>{s.label}</p>
                 </div>
-                <div className="about-ingredient-origin">{ing.origin}</div>
-                <h3 className="about-ingredient-name">{ing.name}</h3>
-                <p className="about-ingredient-desc">{ing.desc}</p>
-                <div className="about-ingredient-line" />
-              </div>
-            ))}
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section style={{ padding: '80px 24px', backgroundColor: 'hsl(36 14% 7%)' }}>
+        <div className="max-w-screen-xl mx-auto">
+          <SectionHeader label="مسيرتنا" title="رحلة" titleItalic="شذايا" />
+          <div className="space-y-0">
+            {MILESTONES.map((item, i) => <MilestoneItem key={i} item={item} index={i} />)}
           </div>
         </div>
       </section>
 
-      {/* ====== BRAND TIMELINE ====== */}
-      <section className="section-padding" style={{ background: 'var(--off-white)' }}>
-        <div className="container">
-          <div className="section-head">
-            <span className="about-section-tag about-section-tag--dark">مسيرتنا</span>
-            <h2 className="section-title">رحلة شذايا عبر السنين</h2>
-            <p className="section-subtitle">من الحلم إلى الواقع — كل خطوة كانت نحو الكمال</p>
-            <span className="title-border" style={{ margin: '0 auto' }} />
-          </div>
-
-          <div className="about-timeline">
-            {MILESTONES.map((m, i) => (
-              <div key={i} className={`about-timeline-item${i % 2 === 0 ? '' : ' about-timeline-item--alt'}`}>
-                <div className="about-timeline-content">
-                  <div className="about-timeline-year">{m.year}</div>
-                  <h3 className="about-timeline-title">{m.title}</h3>
-                  <p className="about-timeline-desc">{m.desc}</p>
-                </div>
-                <div className="about-timeline-dot">
-                  <div className="about-timeline-dot-inner" />
-                </div>
-                <div className="about-timeline-spacer" />
-              </div>
-            ))}
-            <div className="about-timeline-line" />
+      <section style={{ padding: '80px 24px' }}>
+        <div className="max-w-screen-xl mx-auto">
+          <SectionHeader label="فلسفتنا" title="قيمنا" titleItalic="الراسخة" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {VALUES.map((item, i) => <ValueCard key={i} item={item} index={i} />)}
           </div>
         </div>
       </section>
 
-      {/* ====== VALUES ====== */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="section-head">
-            <span className="about-section-tag about-section-tag--dark">فلسفتنا</span>
-            <h2 className="section-title">القيم التي تقوم عليها شذايا</h2>
-            <p className="section-subtitle">مبادئ راسخة تُحرّك كل قرار نتخذه وكل عطر نصنعه</p>
-            <span className="title-border" style={{ margin: '0 auto' }} />
-          </div>
-          <div className="about-values-grid">
-            {VALUES.map((v, i) => (
-              <div key={i} className="about-value-card-v2">
-                <div className="about-value-icon-v2" style={{ background: v.color + '15', color: v.color, border: `1px solid ${v.color}30` }}>
-                  {v.icon}
-                </div>
-                <h3 className="about-value-title-v2">{v.title}</h3>
-                <p className="about-value-desc">{v.desc}</p>
-                <div className="about-value-accent" style={{ background: v.color }} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====== CTA BANNER ====== */}
-      <section className="about-final-cta">
-        <div className="about-final-cta__overlay" />
-        <div className="about-final-cta__bottle">
-          <svg viewBox="0 0 160 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="65" y="2" width="30" height="16" rx="5" stroke="currentColor" strokeWidth="2" opacity="0.4" />
-            <rect x="56" y="16" width="48" height="10" rx="3" stroke="currentColor" strokeWidth="2" opacity="0.4" />
-            <path d="M38 42 Q26 85 26 135 Q26 200 40 238 Q54 265 80 265 Q106 265 120 238 Q134 200 134 135 Q134 85 122 42 Q108 28 80 26 Q52 28 38 42Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.3" />
-          </svg>
-        </div>
-        <div className="container about-final-cta__inner">
-          <span className="about-hero__label" style={{ marginBottom: '16px' }}>
-            <Sparkles size={12} /> اكتشف عالم شذايا
+      <section
+        className="relative overflow-hidden"
+        style={{ padding: '100px 24px', backgroundColor: 'hsl(36 14% 7%)' }}
+      >
+        <div className="absolute inset-0 pointer-events-none select-none flex items-center justify-center">
+          <span className="font-display" style={{ fontSize: 'clamp(8rem, 22vw, 22rem)', fontWeight: 300, color: 'transparent', WebkitTextStroke: '1px hsl(36 20% 90% / 0.025)' }}>
+            شذايا
           </span>
-          <h2 className="about-final-cta__title">
-            جاهز تكتشف <span>عطرك المثالي؟</span>
-          </h2>
-          <p className="about-final-cta__desc">
-            تصفح مجموعتنا الكاملة من أكثر من 50 عطراً فاخراً، كل واحد يحكي قصة مختلفة
+        </div>
+        <div className="relative z-10 max-w-screen-xl mx-auto text-center">
+          <p className="font-body mb-6" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+            اكتشف عالمنا
           </p>
-          <div className="about-final-cta__btns">
-            <Link to="/shop" className="btn btn-gold">تسوق الآن</Link>
-            <Link to="/contact" className="btn btn-outline-white">تواصل معنا</Link>
+          <h2 className="font-display mb-8 leading-[0.95]" style={{ fontSize: 'clamp(2.5rem, 6vw, 6rem)', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>
+            جاهز تجد <span style={{ fontStyle: 'italic' }}>عطرك المثالي؟</span>
+          </h2>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <Link to="/shop" className="btn-primary">تسوق الآن</Link>
+            <Link to="/contact" className="btn-ghost">تواصل معنا</Link>
           </div>
         </div>
       </section>

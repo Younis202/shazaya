@@ -1,68 +1,70 @@
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay } from 'swiper/modules';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowUpLeft } from 'lucide-react';
 import ProductCard from './ProductCard';
+import { ALL_PRODUCTS } from '../data/products';
 
-const PRODUCTS = [
-  { id: 1, title: 'بخور مشاعر', subtitle: 'للجنسين / 100 جرام', img: '/assets/prod-1.jpg', imgHover: '/assets/prod-1-hover.jpg', price: '155.25', originalPrice: '258.75', discount: 40, rating: 4.5, reviews: 23 },
-  { id: 2, title: 'بخور وجود', subtitle: 'للجنسين / 100 جرام', img: '/assets/prod-2.png', imgHover: '/assets/prod-2-hover.png', price: '155.25', originalPrice: '258.75', discount: 40, rating: 5, reviews: 1 },
-  { id: 3, title: 'بخور انسجام', subtitle: 'للجنسين / 100 مل', img: '/assets/prod-3.png', imgHover: '/assets/prod-3-hover.png', price: '176', originalPrice: '251.50', discount: 30, rating: 4.8, reviews: 14 },
-  { id: 4, title: 'عطر شذايا الأول', subtitle: 'رجالي / 100 مل', img: '/assets/prod-4.jpg', price: '189.75', originalPrice: '270', discount: 30, rating: 4.6, reviews: 8 },
-  { id: 5, title: 'ماء العطور النخيل', subtitle: 'نسائي / 75 مل', img: '/assets/prod-5.png', price: '221.25', originalPrice: '295', discount: 25, rating: 4.7, reviews: 19 },
-  { id: 6, title: 'بخور العود الخاص', subtitle: 'للجنسين / 50 جرام', img: '/assets/prod-6.png', price: '339', originalPrice: '452', discount: 25, rating: 4.9, reviews: 31 },
-  { id: 7, title: 'دهن العنبر الفاخر', subtitle: 'رجالي / 12 مل', img: '/assets/prod-7.jpg', price: '127.50', originalPrice: '170', discount: 25, rating: 4.4, reviews: 7 },
-  { id: 8, title: "ماء عطر الشرق", subtitle: "للجنسين / 100 مل", img: "/assets/prod-8.jpg", price: "198", originalPrice: "264", discount: 25, rating: 4.3, reviews: 5 },
-];
+const OFFERS = ALL_PRODUCTS.filter(p => p.discount);
 
 export default function BestOffersSlider({ onAddToCart, onQuickView }) {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
+  const headerRef = useRef(null);
+  const isHeaderInView = useInView(headerRef, { once: true, margin: '-100px' });
 
   return (
-    <section className="section-padding" style={{ background: 'var(--off-white)' }}>
-      <div className="container">
-        <div className="section-head--flex">
-          <div className="section-head">
-            <h2 className="section-title">أفضل العروض</h2>
-            <p className="section-subtitle">خصومات حصرية لفترة محدودة</p>
-            <span className="title-border" />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <a href="#" className="view-all-link">عرض الكل</a>
-            <div className="slider-nav">
-              <button className="s-nav-btn" ref={prevRef} aria-label="السابق"><ChevronRight size={15} /></button>
-              <button className="s-nav-btn" ref={nextRef} aria-label="التالي"><ChevronLeft size={15} /></button>
-            </div>
-          </div>
+    <section
+      id="collection"
+      style={{ padding: '64px 24px 80px', backgroundColor: 'hsl(36 14% 7%)' }}
+    >
+      <motion.div
+        ref={headerRef}
+        initial={{ opacity: 0, y: 40 }}
+        animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="flex flex-col md:flex-row md:items-end md:justify-between mb-16 max-w-screen-xl mx-auto"
+      >
+        <div>
+          <p className="font-body mb-5" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+            عروض مميزة
+          </p>
+          <motion.span
+            className="luxury-divider mb-6"
+            initial={{ scaleX: 0 }}
+            animate={isHeaderInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.77, 0, 0.175, 1] }}
+            style={{ display: 'block', transformOrigin: 'right' }}
+          />
+          <h2
+            className="font-display leading-[0.95]"
+            style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', fontWeight: 300, color: 'hsl(36 20% 90%)' }}
+          >
+            أفضل <span style={{ fontStyle: 'italic' }}>العروض</span>
+          </h2>
         </div>
-
-        <Swiper
-          className="products-swiper"
-          modules={[Navigation, Autoplay]}
-          slidesPerView={2}
-          spaceBetween={14}
-          autoplay={{ delay: 3500, disableOnInteraction: false }}
-          navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
-          onBeforeInit={(swiper) => {
-            swiper.params.navigation.prevEl = prevRef.current;
-            swiper.params.navigation.nextEl = nextRef.current;
-          }}
-          breakpoints={{
-            480: { slidesPerView: 2, spaceBetween: 14 },
-            768: { slidesPerView: 3, spaceBetween: 16 },
-            1024: { slidesPerView: 4, spaceBetween: 18 },
-            1280: { slidesPerView: 5, spaceBetween: 18 },
-          }}
-          dir="rtl"
-
+        <Link
+          to="/shop"
+          className="mt-8 md:mt-0 inline-flex items-center gap-3 font-body"
+          style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)', transition: 'color 0.4s' }}
+          onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(38 58% 52%)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(36 10% 50%)'}
         >
-          {PRODUCTS.map((p) => (
-            <SwiperSlide key={p.id}>
-              <ProductCard product={p} onAddToCart={onAddToCart} onQuickView={onQuickView} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <span>عرض جميع العروض</span>
+          <ArrowUpLeft size={12} strokeWidth={1.5} />
+        </Link>
+      </motion.div>
+
+      <div className="max-w-screen-xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
+        {OFFERS.slice(0, 8).map((product, i) => (
+          <motion.div
+            key={product.id}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 1, delay: (i % 4) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <ProductCard product={product} onAddToCart={onAddToCart} onQuickView={onQuickView} />
+          </motion.div>
+        ))}
       </div>
     </section>
   );

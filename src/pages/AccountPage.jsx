@@ -1,11 +1,20 @@
 import { useState } from 'react';
-import { Eye, EyeOff, User, Lock, Mail, Phone, CheckCircle, Sparkles, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Eye, EyeOff, User, Lock, Mail, Phone, CheckCircle } from 'lucide-react';
 
-const BRAND_QUOTES = [
-  '"عطرك هويتك — اجعله لا يُنسى"',
-  '"الرقي لا يُرى، يُشَمّ"',
-  '"شذايا — حيث تبدأ القصة"',
-];
+const inputStyle = {
+  width: '100%',
+  padding: '14px 0 14px 28px',
+  backgroundColor: 'transparent',
+  border: 'none',
+  borderBottom: '1px solid hsl(36 10% 16% / 0.5)',
+  color: 'hsl(36 20% 90%)',
+  outline: 'none',
+  fontFamily: 'var(--font-body)',
+  fontSize: '13px',
+  letterSpacing: '0.05em',
+  transition: 'border-color 0.3s',
+};
 
 export default function AccountPage() {
   const [mode, setMode] = useState('login');
@@ -13,7 +22,6 @@ export default function AccountPage() {
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', confirmPassword: '' });
-  const [quote] = useState(() => BRAND_QUOTES[Math.floor(Math.random() * BRAND_QUOTES.length)]);
 
   const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -26,179 +34,202 @@ export default function AccountPage() {
   };
 
   return (
-    <div className="account-split-page">
-
-      {/* LEFT PANEL — Brand Visual */}
-      <div className="account-brand-panel">
-        <div className="account-brand-panel__bg">
-          <img src="/assets/brand-story.webp" alt="شذايا" className="account-brand-panel__img" />
-          <div className="account-brand-panel__overlay" />
+    <div className="flex min-h-screen" style={{ paddingTop: '80px' }}>
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        <img src="/assets/brand-story.webp" alt="شذايا" className="w-full h-full object-cover" style={{ filter: 'brightness(0.2)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to left, hsl(36 18% 5%) 0%, hsl(36 18% 5% / 0.4) 60%, transparent 100%)' }} />
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
+          <h2
+            className="font-display text-center mb-6"
+            style={{ fontSize: 'clamp(2rem, 4vw, 4rem)', fontWeight: 300, color: 'hsl(36 20% 90%)', lineHeight: 1.2 }}
+          >
+            "عطرك هويتك<br /><span style={{ fontStyle: 'italic' }}>اجعله لا يُنسى"</span>
+          </h2>
+          <div className="flex items-center gap-8 mt-10">
+            {[
+              { num: '+١٠K', label: 'عميل سعيد' },
+              { num: '٤.٩★', label: 'تقييم عملائنا' },
+              { num: '+٥٠', label: 'عطراً فريداً' },
+            ].map((s, i) => (
+              <div key={i} className="text-center">
+                <span className="font-display block" style={{ fontSize: '1.8rem', fontWeight: 300, color: 'hsl(38 58% 52%)' }}>{s.num}</span>
+                <p className="font-body mt-1" style={{ fontSize: '9px', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
-
-        <div className="account-brand-panel__content">
-          {/* Bottle SVG Decoration */}
-          <div className="account-bottle-deco">
-            <svg viewBox="0 0 160 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="63" y="2" width="34" height="18" rx="6" stroke="currentColor" strokeWidth="2" opacity="0.5" />
-              <rect x="54" y="18" width="52" height="12" rx="4" stroke="currentColor" strokeWidth="2" opacity="0.5" />
-              <path d="M35 50 Q22 95 22 150 Q22 215 38 248 Q54 275 80 275 Q106 275 122 248 Q138 215 138 150 Q138 95 125 50 Q110 34 80 32 Q50 34 35 50Z" stroke="currentColor" strokeWidth="2" fill="rgba(255,255,255,0.04)" opacity="0.6" />
-              <path d="M48 90 Q40 125 40 165 Q40 210 55 242" stroke="currentColor" strokeWidth="1" strokeDasharray="4 5" opacity="0.3" />
-            </svg>
-          </div>
-
-          <div className="account-brand-panel__logo">
-            <img src="/assets/logo.png" alt="شذايا" />
-          </div>
-
-          <blockquote className="account-brand-quote">{quote}</blockquote>
-
-          <div className="account-brand-features">
-            <div className="account-brand-feat">
-              <Star size={14} fill="currentColor" />
-              <span>أكثر من 50 عطراً فريداً</span>
-            </div>
-            <div className="account-brand-feat">
-              <Star size={14} fill="currentColor" />
-              <span>شحن مجاني فوق 500 ر.س</span>
-            </div>
-            <div className="account-brand-feat">
-              <Star size={14} fill="currentColor" />
-              <span>ضمان الأصالة 100%</span>
-            </div>
-          </div>
-
-          <div className="account-brand-stats">
-            <div className="account-brand-stat">
-              <span className="account-brand-stat-num">+10K</span>
-              <span className="account-brand-stat-label">عميل سعيد</span>
-            </div>
-            <div className="account-brand-stat-div" />
-            <div className="account-brand-stat">
-              <span className="account-brand-stat-num">4.9★</span>
-              <span className="account-brand-stat-label">تقييم العملاء</span>
-            </div>
-            <div className="account-brand-stat-div" />
-            <div className="account-brand-stat">
-              <span className="account-brand-stat-num">5+</span>
-              <span className="account-brand-stat-label">سنوات خبرة</span>
-            </div>
-          </div>
+        <div className="absolute inset-0 pointer-events-none select-none flex items-end justify-center pb-12">
+          <span className="font-display" style={{ fontSize: 'clamp(8rem, 18vw, 16rem)', fontWeight: 300, color: 'transparent', WebkitTextStroke: '1px hsl(36 20% 90% / 0.04)' }}>
+            شذايا
+          </span>
         </div>
       </div>
 
-      {/* RIGHT PANEL — Form */}
-      <div className="account-form-panel">
-        <div className="account-form-panel__inner">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-16">
+        <div className="w-full max-w-md">
           {done ? (
-            <div className="account-success-v2">
-              <div className="account-success-icon">
-                <CheckCircle size={52} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="flex items-center justify-center mb-6" style={{ width: '64px', height: '64px', border: '1px solid hsl(38 58% 52% / 0.4)' }}>
+                <CheckCircle size={28} strokeWidth={1.5} style={{ color: 'hsl(38 58% 52%)' }} />
               </div>
-              <h2 className="account-success-title">
-                {mode === 'login' ? 'مرحباً بعودتك!' : 'تم إنشاء حسابك!'}
+              <h2 className="font-display mb-3" style={{ fontSize: '2rem', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>
+                {mode === 'login' ? 'مرحباً بعودتك!' : 'أهلاً بك في شذايا!'}
               </h2>
-              <p className="account-success-desc">
-                {mode === 'login' ? 'تم تسجيل دخولك بنجاح. يمكنك الآن الاستمتاع بتسوق حصري.' : 'حسابك جاهز. انضم لعالم شذايا واستمتع بتجربة تسوق فاخرة.'}
+              <p className="font-body mb-8" style={{ fontSize: '13px', lineHeight: 1.8, color: 'hsl(36 10% 50%)' }}>
+                {mode === 'login' ? 'تم تسجيل دخولك بنجاح. استمتع بتسوق حصري.' : 'حسابك جاهز. انضم لعالم شذايا الفاخر.'}
               </p>
               <button
-                className="btn btn-gold"
-                style={{ width: '100%', justifyContent: 'center', padding: '14px' }}
+                className="btn-primary w-full justify-center"
                 onClick={() => { setDone(false); setForm({ name: '', email: '', phone: '', password: '', confirmPassword: '' }); }}
               >
-                العودة للرئيسية
+                متابعة
               </button>
-            </div>
+            </motion.div>
           ) : (
             <>
-              <div className="account-form-header">
-                <span className="account-form-tag"><Sparkles size={11} /> شذايا</span>
-                <h1 className="account-form-title">
-                  {mode === 'login' ? 'مرحباً بعودتك' : 'انضم لعائلة شذايا'}
-                </h1>
-                <p className="account-form-subtitle">
-                  {mode === 'login' ? 'سجّل دخولك للوصول لحسابك وطلباتك' : 'أنشئ حسابك واستمتع بتجربة تسوق فاخرة'}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-10"
+              >
+                <p className="font-body mb-4" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                  شذايا
                 </p>
+                <h1 className="font-display" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>
+                  {mode === 'login' ? 'مرحباً بعودتك' : 'انضم لعائلتنا'}
+                </h1>
+              </motion.div>
+
+              <div className="flex mb-10" style={{ borderBottom: '1px solid hsl(36 10% 16% / 0.3)' }}>
+                {[['login', 'تسجيل الدخول'], ['register', 'إنشاء حساب']].map(([key, label]) => (
+                  <button
+                    key={key}
+                    onClick={() => setMode(key)}
+                    className="pb-4 ml-8 font-body relative"
+                    style={{ fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', color: mode === key ? 'hsl(36 20% 90%)' : 'hsl(36 10% 50%)', transition: 'color 0.3s' }}
+                  >
+                    {label}
+                    {mode === key && (
+                      <motion.span
+                        layoutId="account-tab"
+                        className="absolute bottom-0 left-0 right-0 h-px"
+                        style={{ backgroundColor: 'hsl(38 58% 52%)' }}
+                      />
+                    )}
+                  </button>
+                ))}
               </div>
 
-              {/* Mode Tabs */}
-              <div className="account-tabs-v2">
-                <button className={`account-tab-v2${mode === 'login' ? ' active' : ''}`} onClick={() => setMode('login')}>
-                  تسجيل الدخول
-                </button>
-                <button className={`account-tab-v2${mode === 'register' ? ' active' : ''}`} onClick={() => setMode('register')}>
-                  إنشاء حساب
-                </button>
-              </div>
-
-              <form onSubmit={handleSubmit} className="account-form-v2">
+              <motion.form
+                key={mode}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                onSubmit={handleSubmit}
+                className="space-y-6"
+              >
                 {mode === 'register' && (
-                  <div className="account-field-v2">
-                    <label>الاسم الكامل</label>
-                    <div className="account-input-wrap-v2">
-                      <User size={16} className="account-input-icon-v2" />
-                      <input name="name" value={form.name} onChange={handleChange} placeholder="أحمد محمد" required />
+                  <div>
+                    <label className="font-body block mb-3" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                      الاسم الكامل
+                    </label>
+                    <div className="relative">
+                      <User size={14} strokeWidth={1.5} style={{ position: 'absolute', left: '0', top: '50%', transform: 'translateY(-50%)', color: 'hsl(36 10% 50%)' }} />
+                      <input name="name" value={form.name} onChange={handleChange} placeholder="أحمد محمد" required style={inputStyle}
+                        onFocus={(e) => e.target.style.borderBottomColor = 'hsl(38 58% 52%)'}
+                        onBlur={(e) => e.target.style.borderBottomColor = 'hsl(36 10% 16% / 0.5)'}
+                      />
                     </div>
                   </div>
                 )}
 
-                <div className="account-field-v2">
-                  <label>البريد الإلكتروني</label>
-                  <div className="account-input-wrap-v2">
-                    <Mail size={16} className="account-input-icon-v2" />
-                    <input name="email" value={form.email} onChange={handleChange} type="email" placeholder="example@email.com" required />
+                <div>
+                  <label className="font-body block mb-3" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                    البريد الإلكتروني
+                  </label>
+                  <div className="relative">
+                    <Mail size={14} strokeWidth={1.5} style={{ position: 'absolute', left: '0', top: '50%', transform: 'translateY(-50%)', color: 'hsl(36 10% 50%)' }} />
+                    <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="example@email.com" required style={inputStyle}
+                      onFocus={(e) => e.target.style.borderBottomColor = 'hsl(38 58% 52%)'}
+                      onBlur={(e) => e.target.style.borderBottomColor = 'hsl(36 10% 16% / 0.5)'}
+                    />
                   </div>
                 </div>
 
                 {mode === 'register' && (
-                  <div className="account-field-v2">
-                    <label>رقم الهاتف</label>
-                    <div className="account-input-wrap-v2">
-                      <Phone size={16} className="account-input-icon-v2" />
-                      <input name="phone" value={form.phone} onChange={handleChange} type="tel" placeholder="+20 10 0000 0000" />
+                  <div>
+                    <label className="font-body block mb-3" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                      رقم الهاتف
+                    </label>
+                    <div className="relative">
+                      <Phone size={14} strokeWidth={1.5} style={{ position: 'absolute', left: '0', top: '50%', transform: 'translateY(-50%)', color: 'hsl(36 10% 50%)' }} />
+                      <input name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="+20 10 0000 0000" style={inputStyle}
+                        onFocus={(e) => e.target.style.borderBottomColor = 'hsl(38 58% 52%)'}
+                        onBlur={(e) => e.target.style.borderBottomColor = 'hsl(36 10% 16% / 0.5)'}
+                      />
                     </div>
                   </div>
                 )}
 
-                <div className="account-field-v2">
-                  <label>
-                    كلمة المرور
-                    {mode === 'login' && <a href="#" className="account-forgot-v2">نسيت كلمة المرور؟</a>}
-                  </label>
-                  <div className="account-input-wrap-v2">
-                    <Lock size={16} className="account-input-icon-v2" />
-                    <input name="password" value={form.password} onChange={handleChange} type={showPass ? 'text' : 'password'} placeholder="••••••••" required />
-                    <button type="button" className="account-eye-v2" onClick={() => setShowPass(s => !s)}>
-                      {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="font-body" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                      كلمة المرور
+                    </label>
+                    {mode === 'login' && (
+                      <a href="#" className="font-body" style={{ fontSize: '9px', letterSpacing: '0.2em', color: 'hsl(36 10% 50%)', transition: 'color 0.3s' }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(38 58% 52%)'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(36 10% 50%)'}
+                      >نسيت كلمة المرور؟</a>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <Lock size={14} strokeWidth={1.5} style={{ position: 'absolute', left: '0', top: '50%', transform: 'translateY(-50%)', color: 'hsl(36 10% 50%)' }} />
+                    <input name="password" type={showPass ? 'text' : 'password'} value={form.password} onChange={handleChange} placeholder="••••••••" required style={{ ...inputStyle, paddingRight: '36px' }}
+                      onFocus={(e) => e.target.style.borderBottomColor = 'hsl(38 58% 52%)'}
+                      onBlur={(e) => e.target.style.borderBottomColor = 'hsl(36 10% 16% / 0.5)'}
+                    />
+                    <button type="button" onClick={() => setShowPass(s => !s)} style={{ position: 'absolute', right: '0', top: '50%', transform: 'translateY(-50%)', color: 'hsl(36 10% 50%)', transition: 'color 0.2s' }}>
+                      {showPass ? <EyeOff size={14} strokeWidth={1.5} /> : <Eye size={14} strokeWidth={1.5} />}
                     </button>
                   </div>
                 </div>
 
-                {mode === 'register' && (
-                  <div className="account-field-v2">
-                    <label>تأكيد كلمة المرور</label>
-                    <div className="account-input-wrap-v2">
-                      <Lock size={16} className="account-input-icon-v2" />
-                      <input name="confirmPassword" value={form.confirmPassword} onChange={handleChange} type={showPass ? 'text' : 'password'} placeholder="••••••••" required />
-                    </div>
-                  </div>
-                )}
-
-                <button type="submit" className="account-submit-v2" disabled={loading}>
-                  {loading ? <span className="contact-spinner" /> : null}
-                  {loading ? 'جاري التحميل...' : mode === 'login' ? 'تسجيل الدخول' : 'إنشاء الحساب'}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-3 font-body mt-8"
+                  style={{ padding: '16px', fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', backgroundColor: 'hsl(36 20% 90%)', color: 'hsl(36 18% 5%)', transition: 'background-color 0.4s', opacity: loading ? 0.6 : 1 }}
+                  onMouseEnter={(e) => { if (!loading) e.currentTarget.style.backgroundColor = 'hsl(38 58% 52%)'; }}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'hsl(36 20% 90%)'}
+                >
+                  {loading ? 'جاري التحميل...' : (mode === 'login' ? 'تسجيل الدخول' : 'إنشاء الحساب')}
                 </button>
 
                 {mode === 'register' && (
-                  <p className="account-terms-v2">
-                    بإنشاء حساب، أنت توافق على <a href="#">شروط الاستخدام</a> و<a href="#">سياسة الخصوصية</a>
+                  <p className="font-body text-center" style={{ fontSize: '10px', color: 'hsl(36 10% 50% / 0.4)', letterSpacing: '0.1em', lineHeight: 1.7 }}>
+                    بإنشاء حساب، أنت توافق على{' '}
+                    <a href="#" style={{ color: 'hsl(38 58% 52%)', textDecoration: 'none' }}>شروط الاستخدام</a>
+                    {' '}و{' '}
+                    <a href="#" style={{ color: 'hsl(38 58% 52%)', textDecoration: 'none' }}>سياسة الخصوصية</a>
                   </p>
                 )}
-              </form>
+              </motion.form>
 
-              <p className="account-switch-v2">
-                {mode === 'login' ? 'ليس لديك حساب؟' : 'لديك حساب بالفعل؟'}
-                <button onClick={() => setMode(m => m === 'login' ? 'register' : 'login')}>
-                  {mode === 'login' ? ' إنشاء حساب جديد' : ' تسجيل الدخول'}
+              <p className="font-body text-center mt-8" style={{ fontSize: '12px', color: 'hsl(36 10% 50%)' }}>
+                {mode === 'login' ? 'ليس لديك حساب؟' : 'لديك حساب؟'}{' '}
+                <button
+                  onClick={() => setMode(m => m === 'login' ? 'register' : 'login')}
+                  style={{ color: 'hsl(38 58% 52%)', transition: 'opacity 0.3s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                >
+                  {mode === 'login' ? 'إنشاء حساب جديد' : 'تسجيل الدخول'}
                 </button>
               </p>
             </>

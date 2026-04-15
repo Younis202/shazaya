@@ -1,19 +1,18 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ShoppingCart, Heart, Share2, Star, Minus, Plus, ChevronLeft, Package, RotateCcw, Shield, Truck, Sparkles, Droplets, Wind, Flame } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { ShoppingBag, Heart, Share2, Star, Minus, Plus, ChevronLeft, Package, RotateCcw, Shield, Truck } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { ALL_PRODUCTS } from '../data/products';
 
-const SCENT_PYRAMID = [
-  { level: 'القمة', time: 'أول 15 دقيقة', notes: ['برغموت', 'ليمون'], icon: <Wind size={16} />, color: '#e0f2fe', border: '#7dd3fc', text: '#0369a1' },
-  { level: 'القلب', time: 'ساعة لـ 4 ساعات', notes: ['ورد الطائف', 'عود'], icon: <Flame size={16} />, color: '#fef3e2', border: '#fcd34d', text: '#92400e' },
-  { level: 'القاعدة', time: 'تدوم 8+ ساعات', notes: ['مسك أبيض', 'عنبر'], icon: <Droplets size={16} />, color: '#f0fdf4', border: '#86efac', text: '#166534' },
-];
+const SIZE_OPTIONS = ['30 مل', '50 مل', '100 مل'];
 
-const SIZE_OPTIONS = [
-  { label: '30 مل', price: null, popular: false },
-  { label: '50 مل', price: null, popular: false },
-  { label: '100 مل', price: null, popular: true },
+const INGREDIENTS = [
+  { name: 'عود كمبودي', origin: 'كمبوديا' },
+  { name: 'مسك أبيض', origin: 'الهند' },
+  { name: 'ورد الطائف', origin: 'السعودية' },
+  { name: 'عنبر رمادي', origin: 'المحيطات' },
 ];
 
 export default function ProductPage({ onAddToCart, onQuickView }) {
@@ -25,16 +24,16 @@ export default function ProductPage({ onAddToCart, onQuickView }) {
   const [activeTab, setActiveTab] = useState('desc');
   const [selectedSize, setSelectedSize] = useState('100 مل');
   const [copied, setCopied] = useState(false);
+  const mainRef = useRef(null);
+  const isInView = useInView(mainRef, { once: true });
 
   if (!product) {
     return (
-      <div className="not-found-page">
-        <div className="container" style={{ textAlign: 'center', padding: '100px 20px' }}>
-          <div style={{ fontSize: '72px', marginBottom: '16px' }}>🔍</div>
-          <h2 style={{ fontSize: '28px', marginBottom: '12px' }}>المنتج غير موجود</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>عذراً، لم نجد هذا المنتج.</p>
-          <Link to="/shop" className="btn btn-gold">تصفح المنتجات</Link>
-        </div>
+      <div className="flex flex-col items-center justify-center" style={{ minHeight: '70vh', padding: '80px 24px' }}>
+        <span className="font-display mb-6" style={{ fontSize: '6rem', fontWeight: 300, color: 'hsl(36 20% 90% / 0.05)' }}>٤٠٤</span>
+        <h2 className="font-display mb-3" style={{ fontSize: '2rem', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>المنتج غير موجود</h2>
+        <p className="font-body mb-8" style={{ fontSize: '13px', color: 'hsl(36 10% 50%)' }}>عذراً، لم نجد هذا المنتج.</p>
+        <Link to="/shop" className="btn-primary">تصفح المنتجات</Link>
       </div>
     );
   }
@@ -47,315 +46,357 @@ export default function ProductPage({ onAddToCart, onQuickView }) {
   };
 
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(window.location.href).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="product-page">
-
-      {/* Breadcrumb */}
-      <div className="breadcrumb-bar">
-        <div className="container breadcrumb-inner">
-          <Link to="/" className="breadcrumb-link">الرئيسية</Link>
-          <ChevronLeft size={13} className="breadcrumb-sep" />
-          <Link to="/shop" className="breadcrumb-link">المتجر</Link>
-          <ChevronLeft size={13} className="breadcrumb-sep" />
-          <Link to="/shop" className="breadcrumb-link">{product.category}</Link>
-          <ChevronLeft size={13} className="breadcrumb-sep" />
-          <span className="breadcrumb-current">{product.title}</span>
-        </div>
+    <div style={{ paddingTop: '100px' }}>
+      <div className="px-6 md:px-12 max-w-screen-xl mx-auto mb-6">
+        <nav className="flex items-center gap-2 font-body" style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+          <Link to="/" className="transition-colors duration-300 hover:text-current" style={{ color: 'inherit', transition: 'color 0.3s' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(36 20% 90%)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(36 10% 50%)'}
+          >الرئيسية</Link>
+          <span>/</span>
+          <Link to="/shop" style={{ color: 'inherit', transition: 'color 0.3s' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(36 20% 90%)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(36 10% 50%)'}
+          >المتجر</Link>
+          <span>/</span>
+          <span style={{ color: 'hsl(36 20% 90% / 0.6)' }}>{product.title}</span>
+        </nav>
       </div>
 
-      {/* Main Product */}
-      <div className="container" style={{ padding: '40px 20px 60px' }}>
-        <div className="pp-grid">
+      <div ref={mainRef} className="px-6 md:px-12 max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 pb-20">
+        <motion.div
+          initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
+          animate={isInView ? { opacity: 1, clipPath: 'inset(0 0 0% 0)' } : {}}
+          transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
+        >
+          <div
+            className="relative overflow-hidden mb-4"
+            style={{ aspectRatio: '4/5', backgroundColor: 'hsl(36 14% 8%)' }}
+          >
+            <img
+              src={images[activeImg] || product.img}
+              alt={product.title}
+              className="w-full h-full object-cover"
+            />
+            {product.discount && (
+              <span className="absolute top-4 right-4 font-body" style={{ fontSize: '9px', letterSpacing: '0.25em', textTransform: 'uppercase', padding: '6px 12px', backgroundColor: 'hsl(36 18% 5% / 0.6)', backdropFilter: 'blur(8px)', color: 'hsl(38 58% 52%)' }}>
+                -{product.discount}%
+              </span>
+            )}
+            <div className="absolute top-4 left-4">
+              <button
+                onClick={() => setWishlisted(w => !w)}
+                className="flex items-center justify-center"
+                style={{ width: '40px', height: '40px', backgroundColor: 'hsl(36 18% 5% / 0.6)', backdropFilter: 'blur(8px)', color: wishlisted ? 'hsl(38 58% 52%)' : 'hsl(36 20% 90% / 0.6)', border: `1px solid ${wishlisted ? 'hsl(38 58% 52% / 0.5)' : 'hsl(36 10% 16% / 0.3)'}`, transition: 'all 0.3s' }}
+              >
+                <Heart size={16} strokeWidth={1.5} fill={wishlisted ? 'currentColor' : 'none'} />
+              </button>
+            </div>
+          </div>
 
-          {/* Gallery */}
-          <div className="pp-gallery">
-            <div className="pp-main-img">
-              <img src={images[activeImg] || product.img} alt={product.title} />
-              {product.discount && <span className="pp-badge">خصم {product.discount}%</span>}
-              {product.isNew && !product.discount && <span className="pp-badge pp-badge--new">جديد</span>}
-              <div className="pp-img-actions">
+          {images.length > 1 && (
+            <div className="flex gap-3">
+              {images.map((src, i) => (
                 <button
-                  className={`pp-img-wish${wishlisted ? ' active' : ''}`}
-                  onClick={() => setWishlisted(w => !w)}
-                  title="أضف للمفضلة"
+                  key={i}
+                  onClick={() => setActiveImg(i)}
+                  className="overflow-hidden flex-shrink-0"
+                  style={{
+                    width: '72px',
+                    height: '88px',
+                    border: i === activeImg ? '1px solid hsl(38 58% 52%)' : '1px solid hsl(36 10% 16% / 0.3)',
+                    transition: 'border-color 0.3s',
+                  }}
                 >
-                  <Heart size={16} fill={wishlisted ? 'currentColor' : 'none'} />
+                  <img src={src} alt="" className="w-full h-full object-cover" />
                 </button>
-              </div>
+              ))}
             </div>
-            {images.length > 1 && (
-              <div className="pp-thumbs">
-                {images.map((src, i) => (
-                  <button key={i} className={`pp-thumb${activeImg === i ? ' active' : ''}`} onClick={() => setActiveImg(i)}>
-                    <img src={src} alt="" />
-                  </button>
-                ))}
-              </div>
-            )}
+          )}
+        </motion.div>
 
-            {/* Scent Pyramid */}
-            <div className="pp-scent-pyramid">
-              <div className="pp-scent-pyramid__header">
-                <Sparkles size={13} />
-                <span>هرم العطر</span>
-              </div>
-              <div className="pp-scent-pyramid__levels">
-                {SCENT_PYRAMID.map((level, i) => (
-                  <div key={i} className="pp-scent-level" style={{ background: level.color, borderColor: level.border }}>
-                    <div className="pp-scent-level__icon" style={{ color: level.text }}>{level.icon}</div>
-                    <div className="pp-scent-level__info">
-                      <span className="pp-scent-level__name" style={{ color: level.text }}>{level.level}</span>
-                      <span className="pp-scent-level__notes">{level.notes.join('، ')}</span>
-                      <span className="pp-scent-level__time">{level.time}</span>
-                    </div>
-                  </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col"
+          style={{ paddingTop: '20px' }}
+        >
+          <p className="font-body mb-2" style={{ fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+            {product.category}
+          </p>
+          <h1 className="font-display mb-3" style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 300, color: 'hsl(36 20% 90%)', lineHeight: 1.1 }}>
+            {product.title}
+          </h1>
+          <p className="font-body mb-5" style={{ fontSize: '12px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+            {product.subtitle}
+          </p>
+
+          {product.rating && (
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={12} fill={i < Math.round(product.rating) ? 'hsl(38 58% 52%)' : 'none'} color={i < Math.round(product.rating) ? 'hsl(38 58% 52%)' : 'hsl(36 10% 30%)'} />
                 ))}
               </div>
+              <span className="font-body" style={{ fontSize: '11px', color: 'hsl(36 10% 50%)' }}>{product.rating} ({product.reviews || 0} تقييم)</span>
+              <span className="font-body" style={{ fontSize: '10px', color: 'hsl(38 58% 52%)', letterSpacing: '0.15em' }}>✓ متوفر</span>
             </div>
+          )}
+
+          <div className="mb-8">
+            {product.discount ? (
+              <div className="flex items-baseline gap-4">
+                <span className="font-display" style={{ fontSize: '2.2rem', fontWeight: 300, color: 'hsl(38 58% 52%)' }}>{product.price} <small style={{ fontSize: '1rem' }}>ر.س</small></span>
+                <span className="font-body line-through" style={{ fontSize: '1.1rem', color: 'hsl(36 10% 40%)' }}>{product.originalPrice}</span>
+                <span className="font-body" style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'hsl(38 58% 52%)', border: '1px solid hsl(38 58% 52% / 0.3)', padding: '3px 10px' }}>
+                  وفّر {product.discount}%
+                </span>
+              </div>
+            ) : (
+              <span className="font-display" style={{ fontSize: '2.2rem', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>{product.price} <small style={{ fontSize: '1rem', color: 'hsl(36 10% 50%)' }}>ر.س</small></span>
+            )}
           </div>
 
-          {/* Info */}
-          <div className="pp-info">
-            <div className="pp-category-row">
-              <span className="pp-category">{product.category}</span>
-              {product.isNew && <span className="pp-new-tag"><Sparkles size={10} /> جديد</span>}
-            </div>
-            <h1 className="pp-title">{product.title}</h1>
-            <p className="pp-subtitle">{product.subtitle}</p>
+          <p className="font-body mb-8" style={{ fontSize: '13px', lineHeight: 1.85, color: 'hsl(36 10% 50%)', maxWidth: '480px' }}>
+            عطر فاخر من مجموعة شذايا الحصرية، مستوحى من أعماق الطبيعة العربية. مزيج متناسق من أرقى المكونات يمنحك حضوراً استثنائياً لا يُنسى طوال اليوم.
+          </p>
 
-            {product.rating && (
-              <div className="pp-rating">
-                <div className="pp-stars">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={15} fill={i < Math.round(product.rating) ? '#f59e0b' : 'none'} color={i < Math.round(product.rating) ? '#f59e0b' : '#d1d5db'} />
-                  ))}
-                </div>
-                <span className="pp-rating-text">{product.rating} ({product.reviews || 0} تقييم)</span>
-                <span className="pp-rating-sep">|</span>
-                <span className="pp-instock">✓ متوفر في المخزون</span>
-              </div>
-            )}
-
-            <div className="pp-price-block">
-              {product.discount ? (
-                <>
-                  <span className="pp-price-sale">{product.price} <small>ر.س</small></span>
-                  <span className="pp-price-original">{product.originalPrice} <small>ر.س</small></span>
-                  <span className="pp-save-pill">وفّر {product.discount}%</span>
-                </>
-              ) : (
-                <span className="pp-price-main">{product.price} <small>ر.س</small></span>
-              )}
-            </div>
-
-            <p className="pp-desc">
-              عطر فاخر من مجموعة شذايا الحصرية، مستوحى من أعماق الطبيعة العربية. مزيج متناسق من أرقى المكونات يمنحك حضوراً استثنائياً لا يُنسى طوال اليوم. يجمع بين الأناقة الشرقية والرقي العصري في قارورة تحفة فنية.
+          <div className="mb-8">
+            <p className="font-body mb-4" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+              الحجم
             </p>
-
-            {/* Size Selector */}
-            <div className="pp-size-section">
-              <div className="pp-size-header">
-                <span className="pp-qty-label">الحجم</span>
-                <span className="pp-selected-size">{selectedSize}</span>
-              </div>
-              <div className="pp-size-options">
-                {SIZE_OPTIONS.map((s) => (
-                  <button
-                    key={s.label}
-                    className={`pp-size-btn${selectedSize === s.label ? ' active' : ''}`}
-                    onClick={() => setSelectedSize(s.label)}
-                  >
-                    {s.popular && <span className="pp-size-popular">الأكثر مبيعاً</span>}
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="pp-divider" />
-
-            {/* Qty */}
-            <div className="pp-qty-row">
-              <span className="pp-qty-label">الكمية</span>
-              <div className="pp-qty-ctrl">
-                <button onClick={() => setQty(q => Math.max(1, q - 1))}><Minus size={14} /></button>
-                <span>{qty}</span>
-                <button onClick={() => setQty(q => q + 1)}><Plus size={14} /></button>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="pp-actions">
-              <button className="pp-add-btn" onClick={handleAdd}>
-                <ShoppingCart size={18} />
-                أضف إلى السلة
-              </button>
-              <button className={`pp-wish-btn${wishlisted ? ' active' : ''}`} onClick={() => setWishlisted(w => !w)} title="مفضلة">
-                <Heart size={18} fill={wishlisted ? 'currentColor' : 'none'} />
-              </button>
-              <button className="pp-share-btn" onClick={handleShare} title={copied ? 'تم النسخ!' : 'مشاركة'}>
-                <Share2 size={18} />
-              </button>
-            </div>
-            {copied && <p style={{ fontSize: '12px', color: 'var(--gold)', marginTop: '4px' }}>✓ تم نسخ الرابط</p>}
-
-            {/* Trust */}
-            <div className="pp-trust">
-              <div className="pp-trust-item"><Truck size={15} /><span>شحن سريع خلال 24-48 ساعة</span></div>
-              <div className="pp-trust-item"><Package size={15} /><span>شحن مجاني للطلبات فوق 500 ر.س</span></div>
-              <div className="pp-trust-item"><RotateCcw size={15} /><span>إرجاع مجاني خلال 14 يوم</span></div>
-              <div className="pp-trust-item"><Shield size={15} /><span>منتج أصلي 100% مضمون</span></div>
-            </div>
-
-            {/* Scent Family Badge */}
-            <div className="pp-scent-family">
-              <span className="pp-scent-family__label">عائلة العطر:</span>
-              <span className="pp-scent-family__value">شرقي خشبي</span>
-              <span className="pp-scent-family__dot">•</span>
-              <span className="pp-scent-family__label">مناسب لـ:</span>
-              <span className="pp-scent-family__value">للجنسين</span>
-              <span className="pp-scent-family__dot">•</span>
-              <span className="pp-scent-family__label">المناسبة:</span>
-              <span className="pp-scent-family__value">يومي / خاص</span>
+            <div className="flex gap-3">
+              {SIZE_OPTIONS.map(size => (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  className="font-body"
+                  style={{
+                    padding: '10px 20px',
+                    fontSize: '11px',
+                    letterSpacing: '0.2em',
+                    border: `1px solid ${selectedSize === size ? 'hsl(38 58% 52%)' : 'hsl(36 10% 16% / 0.4)'}`,
+                    color: selectedSize === size ? 'hsl(38 58% 52%)' : 'hsl(36 10% 50%)',
+                    transition: 'all 0.3s',
+                  }}
+                  onMouseEnter={(e) => { if (selectedSize !== size) { e.currentTarget.style.borderColor = 'hsl(36 20% 90% / 0.4)'; e.currentTarget.style.color = 'hsl(36 20% 90%)'; } }}
+                  onMouseLeave={(e) => { if (selectedSize !== size) { e.currentTarget.style.borderColor = 'hsl(36 10% 16% / 0.4)'; e.currentTarget.style.color = 'hsl(36 10% 50%)'; } }}
+                >
+                  {size}
+                </button>
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Tabs */}
-        <div className="pp-tabs">
-          <div className="pp-tabs-nav">
-            {[['desc', 'الوصف الكامل'], ['ingr', 'المكونات'], ['reviews', 'التقييمات']].map(([key, label]) => (
-              <button key={key} className={`pp-tab-btn${activeTab === key ? ' active' : ''}`} onClick={() => setActiveTab(key)}>{label}</button>
+          <div className="flex items-center gap-4 mb-8">
+            <p className="font-body" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+              الكمية
+            </p>
+            <div className="flex items-center" style={{ border: '1px solid hsl(36 10% 16% / 0.4)' }}>
+              <button
+                onClick={() => setQty(q => Math.max(1, q - 1))}
+                className="flex items-center justify-center"
+                style={{ width: '40px', height: '40px', color: 'hsl(36 20% 90% / 0.4)', transition: 'color 0.2s' }}
+              >
+                <Minus size={12} strokeWidth={1.5} />
+              </button>
+              <span className="font-body" style={{ width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: 'hsl(36 20% 90%)', borderRight: '1px solid hsl(36 10% 16% / 0.4)', borderLeft: '1px solid hsl(36 10% 16% / 0.4)' }}>{qty}</span>
+              <button
+                onClick={() => setQty(q => q + 1)}
+                className="flex items-center justify-center"
+                style={{ width: '40px', height: '40px', color: 'hsl(36 20% 90% / 0.4)', transition: 'color 0.2s' }}
+              >
+                <Plus size={12} strokeWidth={1.5} />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex gap-3 mb-8">
+            <button
+              onClick={handleAdd}
+              className="flex-1 flex items-center justify-center gap-3 font-body"
+              style={{ padding: '16px', fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', backgroundColor: 'hsl(36 20% 90%)', color: 'hsl(36 18% 5%)', transition: 'background-color 0.4s' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'hsl(38 58% 52%)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'hsl(36 20% 90%)'}
+            >
+              <ShoppingBag size={16} strokeWidth={1.5} />
+              أضف إلى السلة
+            </button>
+            <button
+              onClick={handleShare}
+              className="flex items-center justify-center"
+              style={{ width: '52px', border: '1px solid hsl(36 10% 16% / 0.4)', color: copied ? 'hsl(38 58% 52%)' : 'hsl(36 20% 90% / 0.4)', transition: 'all 0.3s' }}
+              title={copied ? 'تم النسخ!' : 'مشاركة'}
+            >
+              <Share2 size={15} strokeWidth={1.5} />
+            </button>
+          </div>
+
+          <div className="space-y-3 pt-6" style={{ borderTop: '1px solid hsl(36 10% 16% / 0.3)' }}>
+            {[
+              [Truck, 'شحن سريع خلال 24–48 ساعة'],
+              [Package, 'شحن مجاني للطلبات فوق ٥٠٠ ر.س'],
+              [RotateCcw, 'إرجاع مجاني خلال ١٤ يوم'],
+              [Shield, 'منتج أصلي ١٠٠% مضمون'],
+            ].map(([Icon, text], i) => (
+              <div key={i} className="flex items-center gap-3">
+                <Icon size={13} strokeWidth={1.5} style={{ color: 'hsl(36 10% 50%)' }} />
+                <span className="font-body" style={{ fontSize: '12px', color: 'hsl(36 10% 50%)' }}>{text}</span>
+              </div>
             ))}
           </div>
-          <div className="pp-tab-content">
-            {activeTab === 'desc' && (
-              <div className="pp-tab-body">
-                <p>مستوحى من روائح الطبيعة العربية الأصيلة، يجمع هذا العطر بين قوة الخشب العربي ونعومة المسك الشرقي وزهور البرية الندية. تركيبة فريدة تدوم على البشرة لساعات طويلة، مناسب للمناسبات الخاصة والاستخدام اليومي على حدٍّ سواء.</p>
-                <div className="pp-desc-specs">
-                  <div className="pp-spec-item">
-                    <span className="pp-spec-key">رائحة العائلة</span>
-                    <span className="pp-spec-val">شرقي خشبي</span>
-                  </div>
-                  <div className="pp-spec-item">
-                    <span className="pp-spec-key">الحجم</span>
-                    <span className="pp-spec-val">{product.subtitle?.split('/')[1]?.trim() || '100 مل'}</span>
-                  </div>
-                  <div className="pp-spec-item">
-                    <span className="pp-spec-key">النوع</span>
-                    <span className="pp-spec-val">{product.subtitle?.split('/')[0]?.trim()}</span>
-                  </div>
-                  <div className="pp-spec-item">
-                    <span className="pp-spec-key">الفئة</span>
-                    <span className="pp-spec-val">{product.category}</span>
-                  </div>
-                  <div className="pp-spec-item">
-                    <span className="pp-spec-key">الثبات</span>
-                    <span className="pp-spec-val">8–12 ساعة</span>
-                  </div>
-                  <div className="pp-spec-item">
-                    <span className="pp-spec-key">الانتشار</span>
-                    <span className="pp-spec-val">متوسط إلى قوي</span>
-                  </div>
-                </div>
-              </div>
-            )}
-            {activeTab === 'ingr' && (
-              <div className="pp-tab-body">
-                <p style={{ marginBottom: '20px' }}>نختار أجود المكونات الطبيعية من مصادرها الأصلية حول العالم لضمان تجربة عطرية لا مثيل لها.</p>
-                <div className="pp-ingr-grid">
-                  {[
-                    { name: 'عود كمبودي', origin: 'كمبوديا', icon: '🪵' },
-                    { name: 'مسك أبيض', origin: 'الهند', icon: '🌿' },
-                    { name: 'ورد الطائف', origin: 'السعودية', icon: '🌹' },
-                    { name: 'عنبر رمادي', origin: 'المحيطات', icon: '🫧' },
-                    { name: 'صندل هندي', origin: 'الهند', icon: '🌴' },
-                    { name: 'فانيلا طبيعية', origin: 'مدغشقر', icon: '✨' },
-                  ].map((ing, i) => (
-                    <div key={i} className="pp-ingr-item-v2">
-                      <span className="pp-ingr-emoji">{ing.icon}</span>
-                      <div>
-                        <span className="pp-ingr-name">{ing.name}</span>
-                        <span className="pp-ingr-origin">{ing.origin}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {activeTab === 'reviews' && (
-              <div className="pp-tab-body">
-                <div className="pp-reviews-summary-v2">
-                  <div className="pp-reviews-score-card">
-                    <span className="pp-score-big">{product.rating}</span>
-                    <div className="pp-score-stars">
-                      {[...Array(5)].map((_, i) => <Star key={i} size={20} fill={i < Math.round(product.rating) ? '#f59e0b' : 'none'} color={i < Math.round(product.rating) ? '#f59e0b' : '#d1d5db'} />)}
-                    </div>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>بناءً على {product.reviews} تقييم</span>
-                  </div>
-                  <div className="pp-rating-bars">
-                    {[5, 4, 3, 2, 1].map(star => {
-                      const pct = star === 5 ? 72 : star === 4 ? 18 : star === 3 ? 6 : star === 2 ? 3 : 1;
-                      return (
-                        <div key={star} className="pp-rating-bar-row">
-                          <span className="pp-rating-bar-label">{star} ★</span>
-                          <div className="pp-rating-bar-track">
-                            <div className="pp-rating-bar-fill" style={{ width: `${pct}%` }} />
-                          </div>
-                          <span className="pp-rating-bar-pct">{pct}%</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+        </motion.div>
+      </div>
 
-                <div className="pp-review-list">
-                  {[
-                    { name: 'أحمد محمود', city: 'القاهرة', rating: 5, date: 'منذ أسبوع', text: 'منتج رائع جداً، الرائحة فاخرة وتدوم طويلاً. شحن سريع وتغليف ممتاز. سأشتري مرة أخرى بالتأكيد.' },
-                    { name: 'سارة خالد', city: 'الإسكندرية', rating: 4, date: 'منذ شهر', text: 'عطر جميل جداً، الرائحة ناعمة ومميزة. سعره مناسب مقارنة بالجودة العالية. أنصح به جداً.' },
-                    { name: 'محمد علي', city: 'الرياض', rating: 5, date: 'منذ أسبوعين', text: 'اشتريته هدية وكان الاستقبال رائعاً. التغليف فاخر جداً ويعكس مستوى البراند.' },
-                  ].map((r, i) => (
-                    <div key={i} className="pp-review-card-v2">
-                      <div className="pp-review-avatar">{r.name[0]}</div>
-                      <div className="pp-review-body">
-                        <div className="pp-review-head-v2">
-                          <div>
-                            <span className="pp-reviewer-name">{r.name}</span>
-                            <span className="pp-reviewer-city">— {r.city}</span>
-                          </div>
-                          <span className="pp-review-date">{r.date}</span>
-                        </div>
-                        <div style={{ display: 'flex', gap: '2px', margin: '6px 0' }}>
-                          {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={j < r.rating ? '#f59e0b' : 'none'} color={j < r.rating ? '#f59e0b' : '#d1d5db'} />)}
-                        </div>
-                        <p className="pp-review-text">{r.text}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+      <div className="px-6 md:px-12 max-w-screen-xl mx-auto mb-20">
+        <div className="flex gap-8 mb-10" style={{ borderBottom: '1px solid hsl(36 10% 16% / 0.3)' }}>
+          {[['desc', 'الوصف'], ['ingr', 'المكونات'], ['reviews', 'التقييمات']].map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className="font-body pb-5 relative"
+              style={{
+                fontSize: '10px',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                color: activeTab === key ? 'hsl(36 20% 90%)' : 'hsl(36 10% 50%)',
+                transition: 'color 0.3s',
+              }}
+            >
+              {label}
+              {activeTab === key && (
+                <motion.span
+                  layoutId="tab-indicator"
+                  className="absolute bottom-0 left-0 right-0 h-px"
+                  style={{ backgroundColor: 'hsl(38 58% 52%)' }}
+                />
+              )}
+            </button>
+          ))}
         </div>
 
-        {/* Related */}
-        {related.length > 0 && (
-          <div className="pp-related">
-            <div className="section-head" style={{ textAlign: 'right', marginBottom: '24px' }}>
-              <h2 className="section-title">منتجات ذات صلة</h2>
-              <span className="title-border" style={{ margin: 0 }} />
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl"
+        >
+          {activeTab === 'desc' && (
+            <div>
+              <p className="font-body mb-8" style={{ fontSize: '14px', lineHeight: 1.9, color: 'hsl(36 10% 50%)' }}>
+                مستوحى من روائح الطبيعة العربية الأصيلة، يجمع هذا العطر بين قوة الخشب العربي ونعومة المسك الشرقي. تركيبة فريدة تدوم على البشرة لساعات طويلة.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {[
+                  ['رائحة العائلة', 'شرقي خشبي'],
+                  ['الحجم', product.subtitle?.split('/')[1]?.trim() || '100 مل'],
+                  ['النوع', product.subtitle?.split('/')[0]?.trim()],
+                  ['الفئة', product.category],
+                  ['الثبات', '8–12 ساعة'],
+                  ['الانتشار', 'متوسط إلى قوي'],
+                ].map(([key, val]) => (
+                  <div key={key} className="py-4" style={{ borderBottom: '1px solid hsl(36 10% 16% / 0.3)' }}>
+                    <p className="font-body mb-1" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>{key}</p>
+                    <p className="font-body" style={{ fontSize: '13px', color: 'hsl(36 20% 90%)' }}>{val}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="pp-related-grid">
-              {related.map(p => <ProductCard key={p.id} product={p} onAddToCart={onAddToCart} onQuickView={onQuickView} />)}
+          )}
+
+          {activeTab === 'ingr' && (
+            <div>
+              <p className="font-body mb-8" style={{ fontSize: '13px', lineHeight: 1.8, color: 'hsl(36 10% 50%)' }}>
+                نختار أجود المكونات الطبيعية من مصادرها الأصلية لضمان تجربة عطرية لا مثيل لها.
+              </p>
+              <div className="space-y-4">
+                {INGREDIENTS.map((ing, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08, duration: 0.5 }}
+                    className="flex items-center justify-between py-4"
+                    style={{ borderBottom: '1px solid hsl(36 10% 16% / 0.2)' }}
+                  >
+                    <span className="font-body" style={{ fontSize: '14px', color: 'hsl(36 20% 90%)' }}>{ing.name}</span>
+                    <span className="font-body" style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>{ing.origin}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'reviews' && (
+            <div>
+              <div className="flex items-center gap-8 mb-12 pb-8" style={{ borderBottom: '1px solid hsl(36 10% 16% / 0.3)' }}>
+                <div className="text-center">
+                  <span className="font-display block" style={{ fontSize: '4rem', fontWeight: 300, color: 'hsl(38 58% 52%)', lineHeight: 1 }}>{product.rating}</span>
+                  <div className="flex gap-1 justify-center mt-2">
+                    {[...Array(5)].map((_, i) => <Star key={i} size={12} fill="hsl(38 58% 52%)" color="hsl(38 58% 52%)" />)}
+                  </div>
+                  <p className="font-body mt-2" style={{ fontSize: '10px', color: 'hsl(36 10% 50%)', letterSpacing: '0.15em' }}>
+                    {product.reviews} تقييم
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-8">
+                {[
+                  { name: 'أحمد محمود', city: 'القاهرة', rating: 5, date: 'منذ أسبوع', text: 'منتج رائع جداً، الرائحة فاخرة وتدوم طويلاً.' },
+                  { name: 'سارة خالد', city: 'الإسكندرية', rating: 4, date: 'منذ شهر', text: 'عطر جميل جداً، الرائحة ناعمة ومميزة. أنصح به.' },
+                  { name: 'محمد علي', city: 'الرياض', rating: 5, date: 'منذ أسبوعين', text: 'اشتريته هدية وكان الاستقبال رائعاً.' },
+                ].map((r, i) => (
+                  <div key={i} className="py-6" style={{ borderBottom: '1px solid hsl(36 10% 16% / 0.2)' }}>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div style={{ width: '32px', height: '32px', backgroundColor: 'hsl(38 58% 52% / 0.1)', border: '1px solid hsl(38 58% 52% / 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <span className="font-display" style={{ fontSize: '14px', color: 'hsl(38 58% 52%)' }}>{r.name[0]}</span>
+                        </div>
+                        <div>
+                          <p className="font-body" style={{ fontSize: '13px', color: 'hsl(36 20% 90%)' }}>{r.name}</p>
+                          <p className="font-body" style={{ fontSize: '10px', color: 'hsl(36 10% 50%)', letterSpacing: '0.15em' }}>{r.city}</p>
+                        </div>
+                      </div>
+                      <span className="font-body" style={{ fontSize: '10px', color: 'hsl(36 10% 50%)' }}>{r.date}</span>
+                    </div>
+                    <div className="flex gap-1 mb-3">
+                      {[...Array(5)].map((_, j) => <Star key={j} size={11} fill={j < r.rating ? 'hsl(38 58% 52%)' : 'none'} color={j < r.rating ? 'hsl(38 58% 52%)' : 'hsl(36 10% 30%)'} />)}
+                    </div>
+                    <p className="font-body" style={{ fontSize: '13px', lineHeight: 1.8, color: 'hsl(36 10% 55%)' }}>{r.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </motion.div>
+      </div>
+
+      {related.length > 0 && (
+        <div
+          className="px-6 md:px-12 max-w-screen-xl mx-auto pb-20"
+          style={{ borderTop: '1px solid hsl(36 10% 16% / 0.3)', paddingTop: '60px' }}
+        >
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <p className="font-body mb-4" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>قد يعجبك أيضاً</p>
+              <h2 className="font-display" style={{ fontSize: 'clamp(1.6rem, 3vw, 3rem)', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>
+                منتجات <span style={{ fontStyle: 'italic' }}>ذات صلة</span>
+              </h2>
             </div>
           </div>
-        )}
-      </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+            {related.map(p => <ProductCard key={p.id} product={p} onAddToCart={onAddToCart} onQuickView={onQuickView} />)}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

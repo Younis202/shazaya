@@ -1,18 +1,12 @@
-import { useState } from 'react';
-import { Phone, Mail, MapPin, MessageCircle, Clock, Send, CheckCircle, Sparkles } from 'lucide-react';
-
-const CONTACT_INFO = [
-  { icon: <Phone size={20} />, label: 'الهاتف', value: '+20 10 0000 0000', href: 'tel:+201000000000', color: '#22c55e' },
-  { icon: <Mail size={20} />, label: 'البريد الإلكتروني', value: 'info@shadaya.eg', href: 'mailto:info@shadaya.eg', color: '#3b82f6' },
-  { icon: <MessageCircle size={20} />, label: 'واتساب', value: '+20 10 0000 0000', href: 'https://wa.me/201000000000', color: '#25d366' },
-  { icon: <MapPin size={20} />, label: 'العنوان', value: 'القاهرة، جمهورية مصر العربية', href: null, color: '#f59e0b' },
-  { icon: <Clock size={20} />, label: 'ساعات العمل', value: 'السبت – الخميس: 9 ص – 10 م', href: null, color: '#8b5cf6' },
-];
+import { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Phone, Mail, MapPin, MessageCircle, Clock, ArrowLeft, CheckCircle } from 'lucide-react';
 
 const FAQS = [
-  { q: 'كيف أتأكد من أصالة المنتج؟', a: 'جميع منتجاتنا أصلية 100% ومرفقة بشهادة ضمان. يمكنك التحقق عبر الرقم التسلسلي الموجود على كل عبوة.' },
-  { q: 'ما هي سياسة الإرجاع؟', a: 'نتيح إرجاع المنتج مجاناً خلال 14 يوماً من الاستلام في حالة وجود أي عيب مصنعي.' },
-  { q: 'هل تشحنون للخارج؟', a: 'نعم، نشحن لجميع دول الخليج العربي ونعمل على توسيع نطاق الشحن الدولي قريباً.' },
+  { q: 'كيف أتأكد من أصالة المنتج؟', a: 'جميع منتجاتنا أصلية ١٠٠% ومرفقة بشهادة ضمان. يمكن التحقق عبر الرقم التسلسلي على كل عبوة.' },
+  { q: 'ما هي سياسة الإرجاع؟', a: 'نتيح إرجاع المنتج مجاناً خلال ١٤ يوماً من الاستلام في حالة وجود أي عيب مصنعي.' },
+  { q: 'هل تشحنون للخارج؟', a: 'نعم، نشحن لجميع دول الخليج العربي ونعمل على توسيع نطاق الشحن قريباً.' },
+  { q: 'كم يستغرق وقت الشحن؟', a: 'في مصر: ٢–٣ أيام عمل. الخليج: ٣–٧ أيام عمل. وشحن مجاني للطلبات فوق ٥٠٠ ريال.' },
 ];
 
 export default function ContactPage() {
@@ -20,177 +14,272 @@ export default function ContactPage() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
+  const headerRef = useRef(null);
+  const isHeaderInView = useInView(headerRef, { once: true });
+  const formRef = useRef(null);
+  const isFormInView = useInView(formRef, { once: true, margin: '-100px' });
 
   const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1200));
+    await new Promise(r => setTimeout(r, 1000));
     setSent(true);
     setLoading(false);
   };
 
-  return (
-    <div className="contact-page">
+  const inputStyle = {
+    width: '100%',
+    padding: '14px 0',
+    backgroundColor: 'transparent',
+    border: 'none',
+    borderBottom: '1px solid hsl(36 10% 16% / 0.5)',
+    color: 'hsl(36 20% 90%)',
+    outline: 'none',
+    fontFamily: 'var(--font-body)',
+    fontSize: '13px',
+    letterSpacing: '0.05em',
+    transition: 'border-color 0.3s',
+  };
 
-      {/* ====== HERO ====== */}
-      <div className="contact-hero">
-        <div className="contact-hero__pattern" />
-        <div className="contact-hero__bottle">
-          <svg viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="47" y="2" width="26" height="13" rx="4" stroke="currentColor" strokeWidth="1.8" opacity="0.35" />
-            <rect x="40" y="13" width="40" height="8" rx="3" stroke="currentColor" strokeWidth="1.8" opacity="0.35" />
-            <path d="M24 36 Q15 65 15 100 Q15 148 26 172 Q37 192 60 192 Q83 192 94 172 Q105 148 105 100 Q105 65 96 36 Q85 22 60 20 Q35 22 24 36Z" stroke="currentColor" strokeWidth="1.8" fill="none" opacity="0.2" />
-          </svg>
+  return (
+    <div>
+      <div
+        className="relative overflow-hidden flex items-end"
+        style={{ height: '50vh', minHeight: '360px', paddingBottom: '64px', paddingTop: '130px' }}
+      >
+        <div className="absolute inset-0">
+          <img src="/assets/hero-1.webp" alt="" className="w-full h-full object-cover" style={{ filter: 'brightness(0.12)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, hsl(36 18% 5%) 0%, hsl(36 18% 5% / 0.5) 60%, transparent 100%)' }} />
         </div>
-        <div className="container contact-hero__inner">
-          <span className="contact-hero__label"><Sparkles size={12} /> نحن هنا لك</span>
-          <h1 className="contact-hero__title">تواصل مع<br /><span>فريق شذايا</span></h1>
-          <p className="contact-hero__desc">
-            يسعدنا الإجابة على جميع استفساراتك. تواصل معنا وسنرد عليك في أسرع وقت ممكن
-          </p>
+        <div ref={headerRef} className="relative z-10 w-full px-6 md:px-12 max-w-screen-xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="font-body mb-4" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+              نحن هنا لك
+            </p>
+            <h1 className="font-display leading-[0.95]" style={{ fontSize: 'clamp(3rem, 7vw, 7rem)', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>
+              تواصل <span style={{ fontStyle: 'italic' }}>معنا</span>
+            </h1>
+          </motion.div>
         </div>
       </div>
 
-      {/* ====== MAIN CONTENT ====== */}
-      <div className="contact-main-section">
-        <div className="container">
-          <div className="contact-layout">
-
-            {/* Info Column */}
-            <div className="contact-info-panel">
-              <div className="contact-info-panel__header">
-                <h2 className="contact-info-panel__title">معلومات التواصل</h2>
-                <p className="contact-info-panel__desc">
-                  يسعدنا سماعك في أي وقت. اختر القناة الأنسب لك وسنتواصل معك فوراً.
-                </p>
-              </div>
-
-              <div className="contact-cards-list">
-                {CONTACT_INFO.map((item, i) => (
-                  <div key={i} className="contact-card">
-                    <div className="contact-card__icon" style={{ background: item.color + '18', color: item.color, border: `1px solid ${item.color}30` }}>
-                      {item.icon}
+      <div className="px-6 md:px-12 max-w-screen-xl mx-auto py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="lg:col-span-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <p className="font-body mb-5" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                معلومات التواصل
+              </p>
+              <div className="space-y-6 mb-10">
+                {[
+                  [Phone, 'الهاتف', '+20 10 0000 0000', 'tel:+201000000000'],
+                  [Mail, 'البريد', 'info@shadaya.eg', 'mailto:info@shadaya.eg'],
+                  [MessageCircle, 'واتساب', '+20 10 0000 0000', 'https://wa.me/201000000000'],
+                  [MapPin, 'العنوان', 'القاهرة، مصر', null],
+                  [Clock, 'ساعات العمل', 'السبت – الخميس: ٩ص – ١٠م', null],
+                ].map(([Icon, label, value, href], i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="flex items-center justify-center flex-shrink-0" style={{ width: '36px', height: '36px', border: '1px solid hsl(36 10% 16% / 0.4)' }}>
+                      <Icon size={14} strokeWidth={1.5} style={{ color: 'hsl(38 58% 52%)' }} />
                     </div>
-                    <div className="contact-card__text">
-                      <p className="contact-card__label">{item.label}</p>
-                      {item.href ? (
-                        <a href={item.href} className="contact-card__value" target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
-                          {item.value}
-                        </a>
+                    <div>
+                      <p className="font-body mb-1" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>{label}</p>
+                      {href ? (
+                        <a href={href} className="font-body" style={{ fontSize: '13px', color: 'hsl(36 20% 90% / 0.7)', transition: 'color 0.3s' }}
+                          target={href.startsWith('http') ? '_blank' : undefined}
+                          onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(36 20% 90%)'}
+                          onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(36 20% 90% / 0.7)'}
+                        >{value}</a>
                       ) : (
-                        <p className="contact-card__value-plain">{item.value}</p>
+                        <p className="font-body" style={{ fontSize: '13px', color: 'hsl(36 20% 90% / 0.7)' }}>{value}</p>
                       )}
                     </div>
                   </div>
                 ))}
               </div>
 
-              <a href="https://wa.me/201000000000" target="_blank" rel="noopener noreferrer" className="contact-wa-btn">
-                <MessageCircle size={18} />
-                <span>تحدث معنا على واتساب الآن</span>
+              <a
+                href="https://wa.me/201000000000"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 font-body w-full justify-center"
+                style={{ padding: '14px', fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', backgroundColor: '#25d366', color: '#fff', transition: 'opacity 0.3s' }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              >
+                <MessageCircle size={15} strokeWidth={1.5} />
+                تحدث معنا الآن
               </a>
+            </motion.div>
+          </div>
 
-              {/* Store Image Card */}
-              <div className="contact-store-card">
-                <img src="/assets/brand-story.webp" alt="متجر شذايا" className="contact-store-card__img" />
-                <div className="contact-store-card__overlay">
-                  <span className="contact-store-card__badge">
-                    <Sparkles size={10} /> متجرنا
-                  </span>
-                  <p className="contact-store-card__name">شذايا — القاهرة</p>
+          <div className="lg:col-span-8" ref={formRef}>
+            {sent ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-center justify-center py-24 text-center"
+              >
+                <div className="flex items-center justify-center mb-6" style={{ width: '60px', height: '60px', border: '1px solid hsl(38 58% 52% / 0.4)' }}>
+                  <CheckCircle size={24} strokeWidth={1.5} style={{ color: 'hsl(38 58% 52%)' }} />
                 </div>
-              </div>
-            </div>
+                <h3 className="font-display mb-3" style={{ fontSize: '2rem', fontWeight: 300, color: 'hsl(36 20% 90%)' }}>
+                  تم الإرسال
+                </h3>
+                <p className="font-body mb-8" style={{ fontSize: '13px', lineHeight: 1.8, color: 'hsl(36 10% 50%)' }}>
+                  شكراً لتواصلك معنا. سنرد عليك خلال ٢٤ ساعة.
+                </p>
+                <button className="btn-primary" onClick={() => { setSent(false); setForm({ name: '', email: '', phone: '', subject: '', message: '' }); }}>
+                  إرسال رسالة أخرى
+                </button>
+              </motion.div>
+            ) : (
+              <motion.form
+                initial={{ opacity: 0, y: 30 }}
+                animate={isFormInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                onSubmit={handleSubmit}
+              >
+                <p className="font-body mb-10" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                  أرسل لنا رسالة
+                </p>
 
-            {/* Form Column */}
-            <div className="contact-form-panel">
-              {sent ? (
-                <div className="contact-success-v2">
-                  <div className="contact-success-icon">
-                    <CheckCircle size={48} />
-                  </div>
-                  <h3 className="contact-success-title">تم إرسال رسالتك بنجاح!</h3>
-                  <p className="contact-success-desc">
-                    شكراً لتواصلك مع شذايا. سيتواصل معك فريقنا المتخصص في غضون 24 ساعة.
-                  </p>
-                  <button
-                    className="btn btn-gold"
-                    onClick={() => { setSent(false); setForm({ name: '', email: '', phone: '', subject: '', message: '' }); }}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  {[
+                    { name: 'name', label: 'الاسم الكامل *', placeholder: 'أحمد محمد', required: true },
+                    { name: 'phone', label: 'رقم الهاتف', placeholder: '+20 10 0000 0000' },
+                  ].map(field => (
+                    <div key={field.name}>
+                      <label className="font-body block mb-3" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                        {field.label}
+                      </label>
+                      <input
+                        name={field.name}
+                        value={form[field.name]}
+                        onChange={handleChange}
+                        placeholder={field.placeholder}
+                        required={field.required}
+                        style={inputStyle}
+                        onFocus={(e) => e.target.style.borderBottomColor = 'hsl(38 58% 52%)'}
+                        onBlur={(e) => e.target.style.borderBottomColor = 'hsl(36 10% 16% / 0.5)'}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mb-6">
+                  <label className="font-body block mb-3" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                    البريد الإلكتروني *
+                  </label>
+                  <input
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="example@email.com"
+                    required
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderBottomColor = 'hsl(38 58% 52%)'}
+                    onBlur={(e) => e.target.style.borderBottomColor = 'hsl(36 10% 16% / 0.5)'}
+                  />
+                </div>
+
+                <div className="mb-6">
+                  <label className="font-body block mb-3" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                    الموضوع *
+                  </label>
+                  <select
+                    name="subject"
+                    value={form.subject}
+                    onChange={handleChange}
+                    required
+                    style={{ ...inputStyle, cursor: 'pointer' }}
+                    onFocus={(e) => e.target.style.borderBottomColor = 'hsl(38 58% 52%)'}
+                    onBlur={(e) => e.target.style.borderBottomColor = 'hsl(36 10% 16% / 0.5)'}
                   >
-                    إرسال رسالة أخرى
-                  </button>
+                    <option value="" style={{ backgroundColor: 'hsl(36 14% 8%)' }}>اختر الموضوع</option>
+                    {['استفسار عن منتج', 'متابعة طلب', 'إرجاع أو استبدال', 'شكوى', 'أخرى'].map(o => (
+                      <option key={o} value={o} style={{ backgroundColor: 'hsl(36 14% 8%)' }}>{o}</option>
+                    ))}
+                  </select>
                 </div>
-              ) : (
-                <form className="contact-form-v2" onSubmit={handleSubmit}>
-                  <div className="contact-form-v2__header">
-                    <h2 className="contact-form-v2__title">أرسل لنا رسالة</h2>
-                    <p className="contact-form-v2__sub">سنرد عليك في خلال 24 ساعة</p>
-                  </div>
 
-                  <div className="contact-form-row">
-                    <div className="contact-field-v2">
-                      <label>الاسم الكامل <span>*</span></label>
-                      <input name="name" value={form.name} onChange={handleChange} placeholder="أحمد محمد" required />
-                    </div>
-                    <div className="contact-field-v2">
-                      <label>رقم الهاتف</label>
-                      <input name="phone" value={form.phone} onChange={handleChange} placeholder="+20 10 0000 0000" type="tel" />
-                    </div>
-                  </div>
+                <div className="mb-10">
+                  <label className="font-body block mb-3" style={{ fontSize: '9px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+                    الرسالة *
+                  </label>
+                  <textarea
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
+                    placeholder="اكتب رسالتك هنا..."
+                    rows={5}
+                    required
+                    style={{ ...inputStyle, resize: 'vertical', borderBottom: '1px solid hsl(36 10% 16% / 0.5)', lineHeight: 1.7 }}
+                    onFocus={(e) => e.target.style.borderBottomColor = 'hsl(38 58% 52%)'}
+                    onBlur={(e) => e.target.style.borderBottomColor = 'hsl(36 10% 16% / 0.5)'}
+                  />
+                </div>
 
-                  <div className="contact-field-v2">
-                    <label>البريد الإلكتروني <span>*</span></label>
-                    <input name="email" value={form.email} onChange={handleChange} placeholder="example@email.com" type="email" required />
-                  </div>
-
-                  <div className="contact-field-v2">
-                    <label>الموضوع <span>*</span></label>
-                    <select name="subject" value={form.subject} onChange={handleChange} required>
-                      <option value="">اختر الموضوع</option>
-                      <option>استفسار عن منتج</option>
-                      <option>متابعة طلب</option>
-                      <option>إرجاع أو استبدال</option>
-                      <option>شكوى</option>
-                      <option>أخرى</option>
-                    </select>
-                  </div>
-
-                  <div className="contact-field-v2">
-                    <label>الرسالة <span>*</span></label>
-                    <textarea name="message" value={form.message} onChange={handleChange} placeholder="اكتب رسالتك هنا..." rows={5} required />
-                  </div>
-
-                  <button type="submit" className="contact-submit-v2" disabled={loading}>
-                    {loading ? <span className="contact-spinner" /> : <Send size={16} />}
-                    {loading ? 'جاري الإرسال...' : 'إرسال الرسالة'}
-                  </button>
-                </form>
-              )}
-            </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex items-center gap-3 font-body"
+                  style={{ padding: '16px 40px', fontSize: '11px', letterSpacing: '0.35em', textTransform: 'uppercase', backgroundColor: 'hsl(36 20% 90%)', color: 'hsl(36 18% 5%)', transition: 'background-color 0.4s', opacity: loading ? 0.6 : 1 }}
+                  onMouseEnter={(e) => { if (!loading) e.currentTarget.style.backgroundColor = 'hsl(38 58% 52%)'; }}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'hsl(36 20% 90%)'}
+                >
+                  {loading ? 'جاري الإرسال...' : 'إرسال الرسالة'}
+                  {!loading && <ArrowLeft size={14} strokeWidth={1.5} />}
+                </button>
+              </motion.form>
+            )}
           </div>
         </div>
       </div>
 
-      {/* ====== FAQ SECTION ====== */}
-      <section className="contact-faq-section">
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title">أسئلة شائعة</h2>
-            <p className="section-subtitle">إجابات سريعة لأكثر الأسئلة تكراراً</p>
-            <span className="title-border" style={{ margin: '0 auto' }} />
-          </div>
-          <div className="contact-faq-list">
+      <section style={{ padding: '60px 24px 80px', backgroundColor: 'hsl(36 14% 7%)' }}>
+        <div className="max-w-screen-xl mx-auto max-w-2xl">
+          <p className="font-body mb-5" style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 10% 50%)' }}>
+            أسئلة شائعة
+          </p>
+          <div className="space-y-0">
             {FAQS.map((faq, i) => (
-              <div key={i} className={`contact-faq-item${openFaq === i ? ' open' : ''}`}>
-                <button className="contact-faq-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+              <div key={i} style={{ borderBottom: '1px solid hsl(36 10% 16% / 0.3)' }}>
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="flex items-center justify-between w-full py-6 font-body text-right"
+                  style={{ fontSize: '14px', color: 'hsl(36 20% 90%)', transition: 'color 0.3s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(38 58% 52%)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(36 20% 90%)'}
+                >
                   <span>{faq.q}</span>
-                  <span className="contact-faq-arrow">{openFaq === i ? '−' : '+'}</span>
+                  <span style={{ fontFamily: 'monospace', fontSize: '18px', color: 'hsl(38 58% 52% / 0.6)', flexShrink: 0, marginRight: '16px' }}>
+                    {openFaq === i ? '−' : '+'}
+                  </span>
                 </button>
-                <div className="contact-faq-a">
-                  <p>{faq.a}</p>
-                </div>
+                {openFaq === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <p className="font-body pb-6" style={{ fontSize: '13px', lineHeight: 1.8, color: 'hsl(36 10% 50%)' }}>{faq.a}</p>
+                  </motion.div>
+                )}
               </div>
             ))}
           </div>
