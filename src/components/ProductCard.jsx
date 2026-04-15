@@ -1,4 +1,5 @@
 import { Heart, Eye, ShoppingCart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function ProductCard({ product, onAddToCart, onQuickView }) {
   const { title, subtitle, img, imgHover, price, originalPrice, discount, isNew, rating, reviews } = product;
@@ -16,10 +17,10 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
   return (
     <div className="product-card">
       <div className="product-card__image">
-        <a href="#">
+        <Link to={`/product/${product.id}`}>
           <img className="product-card__img main" src={img} alt={title} loading="lazy" />
           {imgHover && <img className="product-card__img hover-img" src={imgHover} alt={title} loading="lazy" />}
-        </a>
+        </Link>
 
         {discount && <span className="product-card__badge">{discount}%</span>}
         {isNew && !discount && <span className="product-card__badge new">جديد</span>}
@@ -36,7 +37,7 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
 
       <div className="product-card__content">
         <h3 className="product-card__title">
-          <a href="#">{title}</a>
+          <Link to={`/product/${product.id}`}>{title}</Link>
         </h3>
         {subtitle && <p className="product-card__subtitle">{subtitle}</p>}
 

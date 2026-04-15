@@ -1,21 +1,22 @@
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const FOOTER_LINKS = {
   shop: [
-    { label: 'تخفيضات', href: '#' },
-    { label: 'وصل حديثاً', href: '#' },
-    { label: 'الأكثر مبيعاً', href: '#' },
-    { label: 'عطور رجالية', href: '#' },
-    { label: 'عطور نسائية', href: '#' },
-    { label: 'للجنسين', href: '#' },
+    { label: 'تخفيضات', href: '/shop' },
+    { label: 'وصل حديثاً', href: '/shop' },
+    { label: 'الأكثر مبيعاً', href: '/shop' },
+    { label: 'عطور رجالية', href: '/shop' },
+    { label: 'عطور نسائية', href: '/shop' },
+    { label: 'للجنسين', href: '/shop' },
   ],
   info: [
-    { label: 'من نحن', href: '#' },
+    { label: 'من نحن', href: '/about' },
     { label: 'سياسة الخصوصية', href: '#' },
     { label: 'الشروط والأحكام', href: '#' },
     { label: 'سياسة الإرجاع', href: '#' },
     { label: 'تتبع طلبك', href: '#' },
-    { label: 'اتصل بنا', href: '#' },
+    { label: 'اتصل بنا', href: '/contact' },
   ],
 };
 
@@ -51,7 +52,7 @@ export default function Footer() {
               <h4 className="footer__col-title">تسوق</h4>
               <ul className="footer__links">
                 {FOOTER_LINKS.shop.map((l, i) => (
-                  <li key={i}><a href={l.href} className="footer__link">‹ {l.label}</a></li>
+                  <li key={i}><Link to={l.href} className="footer__link">‹ {l.label}</Link></li>
                 ))}
               </ul>
             </div>
@@ -60,7 +61,7 @@ export default function Footer() {
               <h4 className="footer__col-title">معلومات</h4>
               <ul className="footer__links">
                 {FOOTER_LINKS.info.map((l, i) => (
-                  <li key={i}><a href={l.href} className="footer__link">‹ {l.label}</a></li>
+                  <li key={i}><Link to={l.href} className="footer__link">‹ {l.label}</Link></li>
                 ))}
               </ul>
             </div>

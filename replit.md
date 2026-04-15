@@ -14,9 +14,18 @@ A complete, ultra-premium Arabic luxury perfume brand e-commerce store built wit
 - **Styling**: Custom CSS design system (no Tailwind)
 - **Fonts**: PingARLT (local, all 9 weights in /public/fonts/)
 - **Sliders**: Swiper.js with Navigation, Pagination, Autoplay, EffectFade
+- **Routing**: react-router-dom (BrowserRouter + Routes)
 - **Icons**: lucide-react
 - **Language**: Arabic (RTL)
 - **Port**: 5000
+
+## Pages
+- `/` — HomePage (hero slider, features, collections, offers, new arrivals, brand story, newsletter)
+- `/shop` — ShopPage (all products with category filter, price range, sort)
+- `/product/:id` — ProductPage (gallery, details, tabs, reviews, related products)
+- `/about` — AboutPage (brand story, values, team, CTA)
+- `/contact` — ContactPage (contact form, info, WhatsApp link)
+- `/account` — AccountPage (login / register toggle)
 
 ## Key Design Notes
 - Navbar: transparent with white text at top, white background + dark text on scroll
