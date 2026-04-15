@@ -15,7 +15,7 @@ const NEW_PRODUCTS = [
   { id: 18, title: 'ماء عطر الأرز', subtitle: 'للجنسين / 100 مل', img: '/assets/prod-new-8.png', price: '298', isNew: true, rating: 4.7, reviews: 7 },
 ];
 
-export default function NewArrivals({ onAddToCart }) {
+export default function NewArrivals({ onAddToCart, onQuickView }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
@@ -59,7 +59,7 @@ export default function NewArrivals({ onAddToCart }) {
         >
           {NEW_PRODUCTS.map((p) => (
             <SwiperSlide key={p.id}>
-              <ProductCard product={p} onAddToCart={onAddToCart} />
+              <ProductCard product={p} onAddToCart={onAddToCart} onQuickView={onQuickView} />
             </SwiperSlide>
           ))}
         </Swiper>

@@ -15,7 +15,7 @@ const PRODUCTS = [
   { id: 8, title: "ماء عطر الشرق", subtitle: "للجنسين / 100 مل", img: "/assets/prod-8.jpg", price: "198", originalPrice: "264", discount: 25, rating: 4.3, reviews: 5 },
 ];
 
-export default function BestOffersSlider({ onAddToCart }) {
+export default function BestOffersSlider({ onAddToCart, onQuickView }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
@@ -59,7 +59,7 @@ export default function BestOffersSlider({ onAddToCart }) {
         >
           {PRODUCTS.map((p) => (
             <SwiperSlide key={p.id}>
-              <ProductCard product={p} onAddToCart={onAddToCart} />
+              <ProductCard product={p} onAddToCart={onAddToCart} onQuickView={onQuickView} />
             </SwiperSlide>
           ))}
         </Swiper>

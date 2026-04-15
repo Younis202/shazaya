@@ -1,11 +1,16 @@
 import { Heart, Eye, ShoppingCart } from 'lucide-react';
 
-export default function ProductCard({ product, onAddToCart }) {
+export default function ProductCard({ product, onAddToCart, onQuickView }) {
   const { title, subtitle, img, imgHover, price, originalPrice, discount, isNew, rating, reviews } = product;
 
   const handleAdd = (e) => {
     e.preventDefault();
     if (onAddToCart) onAddToCart(product);
+  };
+
+  const handleQuickView = (e) => {
+    e.preventDefault();
+    if (onQuickView) onQuickView(product);
   };
 
   return (
@@ -23,7 +28,7 @@ export default function ProductCard({ product, onAddToCart }) {
           <button className="p-action-btn" title="إضافة للمفضلة" aria-label="مفضلة">
             <Heart size={14} />
           </button>
-          <button className="p-action-btn" title="عرض سريع" aria-label="عرض سريع">
+          <button className="p-action-btn" title="عرض سريع" aria-label="عرض سريع" onClick={handleQuickView}>
             <Eye size={14} />
           </button>
         </div>
