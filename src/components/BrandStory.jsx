@@ -17,7 +17,7 @@ export default function BrandStory() {
   return (
     <section
       ref={sectionRef}
-      style={{ padding: '64px 24px 80px', overflow: 'hidden' }}
+      style={{ padding: '64px 24px 80px', overflow: 'hidden', position: 'relative' }}
     >
       <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-20 items-start">
         <motion.div

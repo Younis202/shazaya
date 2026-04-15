@@ -122,7 +122,8 @@ function AppInner({ cartItems, handleAddToCart, handleRemoveFromCart, handleQuic
 }
 
 export default function App() {
-  const [loaded, setLoaded] = useState(false);
+  const devSkip = import.meta.env.DEV && new URLSearchParams(window.location.search).has('skip');
+  const [loaded, setLoaded] = useState(devSkip);
   const [cartItems, setCartItems] = useState([]);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 

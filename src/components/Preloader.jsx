@@ -10,13 +10,13 @@ export default function Preloader({ onComplete }) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setPhase('revealing'), 300);
-          setTimeout(() => { setPhase('done'); onComplete(); }, 1800);
+          setTimeout(() => setPhase('revealing'), 200);
+          setTimeout(() => { setPhase('done'); onComplete(); }, 1200);
           return 100;
         }
-        return prev + Math.random() * 12 + 3;
+        return prev + Math.random() * 18 + 8;
       });
-    }, 100);
+    }, 80);
     return () => clearInterval(interval);
   }, [onComplete]);
 

@@ -9,7 +9,7 @@ export default function WideBanner() {
   const imageY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
 
   return (
-    <section ref={ref} className="relative overflow-hidden" style={{ height: '70vh', minHeight: '400px', maxHeight: '700px' }}>
+    <section ref={ref} className="relative overflow-hidden" style={{ height: '70vh', minHeight: '400px', maxHeight: '700px', position: 'relative' }}>
       <motion.div
         initial={{ scale: 1.15 }}
         animate={isInView ? { scale: 1 } : {}}
