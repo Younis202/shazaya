@@ -1,7 +1,7 @@
 @font-face {
   font-family: "sallaicons";
-  src: url("lib/sallaicons/sallaicons.woff?i91vnj") format("woff"),
-       url("lib/sallaicons/sallaicons.ttf?i91vnj") format("truetype");
+  src: url("https://cdn.salla.network/fonts/lib/sallaicons/sallaicons.woff?i91vnj") format("woff"),
+       url("https://cdn.salla.network/fonts/lib/sallaicons/sallaicons.ttf?i91vnj") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
