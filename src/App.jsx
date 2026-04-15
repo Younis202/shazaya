@@ -122,10 +122,13 @@ function AppInner({ cartItems, handleAddToCart, handleRemoveFromCart, handleQuic
 }
 
 export default function App() {
-  const devSkip = import.meta.env.DEV && new URLSearchParams(window.location.search).has('skip');
-  const [loaded, setLoaded] = useState(devSkip);
+  const [loaded, setLoaded] = useState(() => {
+    return import.meta.env.DEV && new URLSearchParams(window.location.search).has('skip');
+  });
   const [cartItems, setCartItems] = useState([]);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+
+  const handlePreloaderComplete = useCallback(() => setLoaded(true), []);
 
   const handleAddToCart = useCallback((product) => {
     setCartItems(prev => [...prev, product]);
@@ -143,7 +146,7 @@ export default function App() {
       <CustomCursor />
       <FilmGrain />
 
-      {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
+      {!loaded && <Preloader onComplete={handlePreloaderComplete} />}
 
       <AnimatePresence>
         {loaded && (

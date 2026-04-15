@@ -1,24 +1,37 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState('loading');
+  const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
+    onCompleteRef.current = onComplete;
+  });
+
+  useEffect(() => {
+    const timeouts = [];
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setPhase('revealing'), 200);
-          setTimeout(() => { setPhase('done'); onComplete(); }, 1200);
+          timeouts.push(setTimeout(() => setPhase('revealing'), 200));
+          timeouts.push(setTimeout(() => {
+            setPhase('done');
+            onCompleteRef.current?.();
+          }, 1200));
           return 100;
         }
-        return prev + Math.random() * 18 + 8;
+        return Math.min(prev + Math.random() * 18 + 8, 100);
       });
     }, 80);
-    return () => clearInterval(interval);
-  }, [onComplete]);
+
+    return () => {
+      clearInterval(interval);
+      timeouts.forEach(clearTimeout);
+    };
+  }, []);
 
   const num = Math.min(Math.round(progress), 100).toString().padStart(3, '0');
 
