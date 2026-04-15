@@ -33,7 +33,7 @@ export default function HeroSlider() {
       <motion.div
         initial={{ scale: 1.3, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 3, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 2.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         style={{ scale: imageScale, y: imageY }}
         className="absolute inset-0"
       >
@@ -55,7 +55,7 @@ export default function HeroSlider() {
       <motion.div
         initial={{ opacity: 0, rotate: -90 }}
         animate={{ opacity: 1, rotate: -90 }}
-        transition={{ delay: 3.2, duration: 0.8 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
         style={{ opacity: contentOpacity }}
         className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 hidden md:block origin-center"
       >
@@ -67,7 +67,7 @@ export default function HeroSlider() {
       <motion.div
         initial={{ opacity: 0, rotate: 90 }}
         animate={{ opacity: 1, rotate: 90 }}
-        transition={{ delay: 3.4, duration: 0.8 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
         style={{ opacity: contentOpacity }}
         className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 hidden md:block origin-center"
       >
@@ -84,7 +84,7 @@ export default function HeroSlider() {
           <motion.p
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
-            transition={{ duration: 0.8, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="font-body"
             style={{ fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'hsl(36 20% 90% / 0.4)' }}
           >
@@ -95,7 +95,7 @@ export default function HeroSlider() {
         <div className="mb-2">
           <SplitText
             text="عطرك"
-            delay={2.4}
+            delay={0.7}
             className="font-display leading-[0.85]"
             style={{ display: 'inline-block' }}
           />
@@ -103,14 +103,14 @@ export default function HeroSlider() {
         <div className="mb-2">
           <SplitText
             text="يتكلّم"
-            delay={2.65}
+            delay={0.95}
             className="font-display leading-[0.85]"
           />
         </div>
         <div>
           <SplitText
             text="عنك"
-            delay={2.9}
+            delay={1.2}
             className="font-display italic leading-[0.85]"
           />
         </div>
@@ -131,7 +131,7 @@ export default function HeroSlider() {
           <motion.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
-            transition={{ duration: 0.8, delay: 3.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
             className="flex items-center gap-10"
           >
             <Link
@@ -157,7 +157,7 @@ export default function HeroSlider() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 3.8 }}
+        transition={{ delay: 1.8 }}
         style={{ opacity: contentOpacity }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
       >

@@ -123,12 +123,16 @@ function AppInner({ cartItems, handleAddToCart, handleRemoveFromCart, handleQuic
 
 export default function App() {
   const [loaded, setLoaded] = useState(() => {
-    return import.meta.env.DEV && new URLSearchParams(window.location.search).has('skip');
+    if (import.meta.env.DEV && new URLSearchParams(window.location.search).has('skip')) return true;
+    return sessionStorage.getItem('shadaya_loaded') === '1';
   });
   const [cartItems, setCartItems] = useState([]);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
-  const handlePreloaderComplete = useCallback(() => setLoaded(true), []);
+  const handlePreloaderComplete = useCallback(() => {
+    sessionStorage.setItem('shadaya_loaded', '1');
+    setLoaded(true);
+  }, []);
 
   const handleAddToCart = useCallback((product) => {
     setCartItems(prev => [...prev, product]);
