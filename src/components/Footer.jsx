@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Twitter, Send } from 'lucide-react';
+import { Camera, MessageCircle, Send } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -11,8 +11,8 @@ export default function Footer() {
             <p>شذايا.. عطر يبدأ بهدوء، ويترك أثراً لا يُنسى. صُنع بشغف لمن يقدرون الفخامة.</p>
             
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '2rem' }}>
-              <a href="#" style={{ color: 'var(--color-text-muted)' }}><Instagram size={20} /></a>
-              <a href="#" style={{ color: 'var(--color-text-muted)' }}><Twitter size={20} /></a>
+              <a href="#" style={{ color: 'var(--color-text-muted)' }}><Camera size={20} /></a>
+              <a href="#" style={{ color: 'var(--color-text-muted)' }}><MessageCircle size={20} /></a>
               <a href="#" style={{ color: 'var(--color-text-muted)' }}><Send size={20} /></a>
             </div>
           </div>
