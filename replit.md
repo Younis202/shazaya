@@ -1,39 +1,73 @@
-# شذايا (Shadaya) - متجر عطور React
+# شذايا (Shadaya) — Luxury Arabic Perfume E-commerce
 
-## نظرة عامة
-متجر إلكتروني لبراند عطور شذايا مبني بـ React + Vite، مستوحى من تصميم متجر الرصاصي (store.rasasi.com.sa).
+## Project Overview
+A complete, ultra-premium Arabic luxury perfume brand e-commerce store built with React 19 + Vite. Full RTL (right-to-left) Arabic interface, gold/black/white design palette, Swiper sliders, and Framer Motion animations.
 
-## المكونات
+## Tech Stack
+- **Framework**: React 19 + Vite 8
+- **Styling**: Custom CSS design system (no Tailwind)
+- **Sliders**: Swiper.js with Navigation, Pagination, Autoplay, EffectFade
+- **Icons**: lucide-react
+- **Language**: Arabic (RTL)
+- **Port**: 5000
 
-| الملف | الوظيفة |
-|---|---|
-| `src/App.jsx` | الجذر - يجمع كل المكونات |
-| `src/index.css` | نظام التصميم الكامل (أبيض + ذهبي + RTL) |
-| `src/components/AnnouncementBar.jsx` | شريط الإعلانات المتحرك في الأعلى |
-| `src/components/TopBar.jsx` | شريط البريد واللغة |
-| `src/components/Navbar.jsx` | الهيدر: شعار + قائمة + بحث + سلة |
-| `src/components/HeroBanner.jsx` | البانر الرئيسي مع سلايدر وأنيميشن |
-| `src/components/FeaturedProducts.jsx` | شبكة المنتجات (4 أعمدة) |
-| `src/components/Features.jsx` | شريط المميزات (شحن، جودة، إرجاع، دعم) |
-| `src/components/Footer.jsx` | الفوتر الداكن مع الروابط وبوابات الدفع |
+## Architecture
+```
+src/
+├── main.jsx                 # Entry point
+├── App.jsx                  # Root - assembles all components
+├── index.css                # Complete design system (CSS variables, all component styles)
+└── components/
+    ├── AnnouncementBar.jsx  # Scrolling marquee announcement bar
+    ├── TopBar.jsx           # Top contact bar (email, phone, language)
+    ├── Navbar.jsx           # Sticky nav with mega-menu, mobile hamburger, cart badge
+    ├── HeroSlider.jsx       # Full-width hero image slider with fade effect
+    ├── FeaturesBar.jsx      # 4-column features strip (shipping, quality, support, returns)
+    ├── Collections.jsx      # 6-column collections grid with hover animations
+    ├── WideBanner.jsx       # Wide promotional banner image
+    ├── BestOffersSlider.jsx # Product card slider for discounted offers
+    ├── CategorySlider.jsx   # Horizontal category carousel
+    ├── NewArrivals.jsx      # New products slider
+    ├── ProductCard.jsx      # Reusable product card (hover image swap, add-to-cart, wishlist)
+    ├── BrandStory.jsx       # Brand about section with dark background + gold accents
+    ├── Newsletter.jsx       # Email signup with gold gradient background
+    ├── Footer.jsx           # 4-column footer with social, links, contact, payment icons
+    ├── CartDrawer.jsx       # Slide-in cart panel from left
+    ├── SearchModal.jsx      # Fullscreen search overlay
+    ├── WhatsApp.jsx         # Fixed WhatsApp floating button with ping animation
+    └── Toast.jsx            # Add-to-cart notification toast
+```
 
-## الأصول
-- `public/assets/لوجو_فاضي_1_1776217284462.png` - شعار شذايا
-- `public/assets/hero-bg.png` - صورة البانر الرئيسي
-- `public/assets/p1.png ... p8.jpg` - صور المنتجات (منقولة من ملفات الرصاصي)
-- `public/assets/pay-*.png` - أيقونات بوابات الدفع
+## Color Palette
+- `--gold: #ad8538` / `--gold-dark: #875f12` / `--gold-light: #d3ab5e`
+- `--dark: #111111` / `--dark-2: #1a1a1a`
+- `--white: #ffffff` / `--off-white: #fafaf8`
 
-## نظام الألوان
-- الخلفية: `#ffffff` أبيض نظيف
-- اللون الأساسي: `#ad8538` ذهبي
-- النص: `#111827`
-- الفوتر: `#0a0a0a` أسود داكن
+## Assets Location
+All images: `/public/assets/`
+- Hero: `hero-1.webp`, `hero-2.webp` (+ mobile variants)
+- Collections: `col-1.webp` to `col-6.webp`
+- Categories: `cat-men.webp`, `cat-women.webp`, `cat-unisex.webp`, `cat-oud.webp`
+- Products: `prod-1.jpg` to `prod-8.jpg`, `prod-new-1.png` to `prod-new-8.png`
+- Brand: `brand-story.webp`, `brand-story-2.webp`
+- Logo: `logo.png`
+- Payment icons: `pay-visa.png`, `pay-mada.png`, `pay-apple.png`, `pay-stc.png`, `pay-tamara.png`, `pay-bank.png`
 
-## التشغيل
-- Framework: React 19 + Vite 8
-- Port: 5000
-- Command: `npm run dev -- --host 0.0.0.0`
+## Features
+- Full RTL Arabic UI
+- Sticky scrolling navbar with shadow effect on scroll
+- Mobile-responsive hamburger menu with slide-out drawer
+- Product cards with hover image swap, wishlist + quick-view buttons
+- Cart drawer with add/remove items and total
+- Search fullscreen modal
+- WhatsApp floating button with CSS ping animation
+- Toast notifications on add-to-cart
+- Intersection Observer for scroll-triggered fade animations
+- Swiper sliders: hero (fade + autoplay), products, categories
+- Newsletter form with success state
 
-## ملاحظات
-- الملف الأصلي `مرحبا بكم في متجر الرصاصي للعطور الرسمي.html` محتفظ به كمرجع
-- جميع مكونات Salla / Web Components المعقدة تم استبدالها بـ React نظيف
+## Running
+```bash
+npm run dev
+```
+Server runs on port 5000.

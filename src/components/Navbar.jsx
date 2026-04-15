@@ -1,121 +1,138 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Search, User, Menu, X, Heart, ChevronLeft } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Search, ShoppingCart, User, Heart, X, ChevronDown, Menu } from 'lucide-react';
 
-const links = [
-  { label: 'تخفيضات', href: '#offers', cls: 'sale-link' },
-  { label: 'العطور',    href: '#products' },
-  { label: 'المجموعات', href: '#collections' },
-  { label: 'الرجالية',  href: '#men' },
-  { label: 'النسائية',  href: '#women' },
-  { label: 'الهدايا',   href: '#gifts' },
-  { label: 'من نحن',    href: '#about' },
+const NAV_ITEMS = [
+  { label: 'تخفيضات', href: '#', class: 'offers' },
+  { label: 'جديدنا', href: '#' },
+  { label: 'الأكثر مبيعاً', href: '#' },
+  { label: 'جميع المنتجات', href: '#' },
+  {
+    label: 'العطور', href: '#',
+    sub: ['عطور رجالية', 'عطور نسائية', 'للجنسين', 'عطور الجسم', 'عطور الشعر', 'معطر منزلي'],
+  },
+  { label: 'عود', href: '#' },
+  { label: 'دهن', href: '#' },
+  { label: 'بخور', href: '#' },
+  {
+    label: 'المجموعات', href: '#',
+    sub: ['هوس', 'الوسام', 'دارج', 'توليفة', 'نفائس الشغف', 'سمو شذايا'],
+  },
 ];
 
-export default function Navbar() {
-  const [scrolled, setScrolled]   = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
+export default function Navbar({ onOpenCart, onOpenSearch, cartCount }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openSub, setOpenSub] = useState(null);
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
+    const h = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', h, { passive: true });
+    return () => window.removeEventListener('scroll', h);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
+  }, [mobileOpen]);
 
   return (
     <>
       <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
-        <div className="container">
-          <div className="nav-inner">
-            <button
-              className="menu-toggle"
-              onClick={() => setMenuOpen(true)}
-              aria-label="فتح القائمة"
-            >
-              <Menu size={22} />
+        <div className="container navbar__inner">
+          {/* Hamburger */}
+          <button
+            className={`navbar__hamburger${mobileOpen ? ' open' : ''}`}
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="القائمة"
+          >
+            <span className="ham-line" />
+            <span className="ham-line" />
+            <span className="ham-line" />
+          </button>
+
+          {/* Logo */}
+          <a href="/" className="navbar__logo">
+            <img src="/assets/logo.png" alt="شذايا" />
+          </a>
+
+          {/* Desktop Nav */}
+          <ul className="navbar__nav">
+            {NAV_ITEMS.map((item, i) => (
+              <li key={i} className="nav-item">
+                <a href={item.href} className={`nav-item__link${item.class ? ' ' + item.class : ''}`}>
+                  {item.label}
+                  {item.sub && <ChevronDown size={11} className="nav-arrow" />}
+                </a>
+                {item.sub && (
+                  <div className="nav-dropdown">
+                    {item.sub.map((s, j) => (
+                      <div key={j} className="nav-dropdown__item">
+                        <a href="#">{s}</a>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          {/* Actions */}
+          <div className="navbar__actions">
+            <button className="nav-action-btn" onClick={onOpenSearch} aria-label="بحث">
+              <Search size={19} />
             </button>
-
-            <ul className="nav-links" role="list">
-              {links.map(l => (
-                <li key={l.label}>
-                  <a href={l.href} className={l.cls || ''}>
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            <a href="/" className="nav-logo" aria-label="شذايا للعطور">
-              <img
-                src="/assets/لوجو_فاضي_1_1776217284462.png"
-                alt="شذايا Shadaya"
-              />
-            </a>
-
-            <div className="nav-actions">
-              <button className="nav-icon-btn" aria-label="بحث"><Search size={19} strokeWidth={1.8} /></button>
-              <button className="nav-icon-btn" aria-label="حسابي"><User size={19} strokeWidth={1.8} /></button>
-              <button className="nav-icon-btn" aria-label="المفضلة"><Heart size={19} strokeWidth={1.8} /></button>
-              <button className="nav-icon-btn" aria-label="السلة" style={{ position: 'relative' }}>
-                <ShoppingBag size={19} strokeWidth={1.8} />
-                <span className="cart-dot">0</span>
-              </button>
-            </div>
+            <button className="nav-action-btn" aria-label="المفضلة">
+              <Heart size={19} />
+            </button>
+            <button className="nav-action-btn" aria-label="حسابي">
+              <User size={19} />
+            </button>
+            <button className="nav-action-btn" onClick={onOpenCart} aria-label="السلة">
+              <ShoppingCart size={19} />
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </button>
           </div>
         </div>
       </nav>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <>
-            <motion.div
-              className="drawer-overlay"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.22 }}
-              onClick={() => setMenuOpen(false)}
-            />
-            <motion.div
-              className="drawer"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', stiffness: 340, damping: 34 }}
-            >
-              <div className="drawer-top">
-                <img src="/assets/لوجو_فاضي_1_1776217284462.png" alt="شذايا" />
-                <button
-                  className="drawer-close"
-                  onClick={() => setMenuOpen(false)}
-                  aria-label="إغلاق"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-              <ul className="drawer-nav" role="list">
-                {links.map(l => (
-                  <li key={l.label}>
-                    <a
-                      href={l.href}
-                      className={l.cls || ''}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {l.label}
-                      <ChevronLeft size={16} style={{ opacity: 0.35 }} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      {/* Mobile overlay */}
+      <div className={`mobile-overlay${mobileOpen ? ' open' : ''}`} onClick={() => setMobileOpen(false)} />
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu${mobileOpen ? ' open' : ''}`}>
+        <div className="mm-head">
+          <img src="/assets/logo.png" alt="شذايا" />
+          <button className="mm-close" onClick={() => setMobileOpen(false)}>
+            <X size={18} />
+          </button>
+        </div>
+        <nav className="mm-nav">
+          {NAV_ITEMS.map((item, i) => (
+            <div key={i} className="mm-item">
+              {item.sub ? (
+                <>
+                  <button
+                    className="mm-trigger"
+                    onClick={() => setOpenSub(openSub === i ? null : i)}
+                  >
+                    {item.label}
+                    <ChevronDown size={13} style={{ transform: openSub === i ? 'rotate(180deg)' : '', transition: 'transform 0.2s' }} />
+                  </button>
+                  <div className={`mm-sub${openSub === i ? ' open' : ''}`}>
+                    {item.sub.map((s, j) => (
+                      <a key={j} href="#">{s}</a>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <a href={item.href} className={`mm-link${item.class ? ' ' + item.class : ''}`} onClick={() => setMobileOpen(false)}>
+                  {item.label}
+                </a>
+              )}
+            </div>
+          ))}
+        </nav>
+      </div>
     </>
   );
 }

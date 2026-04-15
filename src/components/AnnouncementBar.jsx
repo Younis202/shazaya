@@ -1,22 +1,22 @@
-import React from 'react';
-
-const msgs = [
-  '✦  شحن مجاني للطلبات فوق 350 ريال',
-  '✦  مجموعة شذايا الحصرية — أرقى العطور السعودية',
-  '✦  ضمان الأصالة 100% على جميع منتجاتنا',
-  '✦  الدفع بالتقسيط مع تمارا',
-  '✦  شحن مجاني للطلبات فوق 350 ريال',
-  '✦  مجموعة شذايا الحصرية — أرقى العطور السعودية',
-  '✦  ضمان الأصالة 100% على جميع منتجاتنا',
-  '✦  الدفع بالتقسيط مع تمارا',
-];
-
 export default function AnnouncementBar() {
+  const items = [
+    { text: 'شحن مجاني للطلبات التي تزيد عن', hl: '350 ريال' },
+    { text: 'مرحباً بكم في متجر شذايا الرسمي للعطور الفاخرة' },
+    { text: 'عطور شذايا — أثرٌ يبقى، وذكرى لا تُنسى' },
+    { text: 'تسوق الآن واحصل على', hl: 'خصومات حصرية' },
+    { text: 'شحن مجاني للطلبات التي تزيد عن', hl: '350 ريال' },
+    { text: 'مرحباً بكم في متجر شذايا الرسمي للعطور الفاخرة' },
+    { text: 'عطور شذايا — أثرٌ يبقى، وذكرى لا تُنسى' },
+    { text: 'تسوق الآن واحصل على', hl: 'خصومات حصرية' },
+  ];
   return (
-    <div className="ann-bar" aria-label="إعلانات المتجر">
-      <div className="ann-track" aria-hidden="true">
-        {msgs.map((m, i) => (
-          <span key={i} style={{ letterSpacing: '0.04em' }}>{m}</span>
+    <div className="announcement-bar">
+      <div className="announcement-bar__track">
+        {items.map((item, i) => (
+          <span key={i} className="announcement-bar__item">
+            <span className="announcement-dot" />
+            {item.text}{item.hl && <> <span className="gold">{item.hl}</span></>}
+          </span>
         ))}
       </div>
     </div>

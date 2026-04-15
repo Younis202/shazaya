@@ -1,67 +1,56 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export default function BrandStory() {
   return (
-    <section className="brand-section section" id="about">
+    <section className="brand-story section-padding">
       <div className="container">
-        <div className="brand-inner">
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="brand-label">قصة شذايا</div>
-            <h2 className="brand-title">
-              فنّ صُنع لأصحاب<br />
-              الذوق الرفيع
+        <div className="brand-story__grid">
+          {/* Text side */}
+          <div>
+            <span className="brand-story__tag">
+              <Sparkles size={12} />
+              قصة شذايا
+            </span>
+            <h2 className="brand-story__title">
+              نصنع <span>أثراً</span><br />لا يُنسى
             </h2>
-            <p className="brand-body">
-              في شذايا نؤمن أن العطر ليس مجرد رائحة — بل هو هوية وحضور وانطباع أول لا يُمحى.
-              أسسنا دارنا بشغف حقيقي لصناعة العطور الفاخرة، مستلهمين من عمق التراث العربي
-              ومنفتحين على أرقى مواد العطور حول العالم.
+            <p className="brand-story__text">
+              شذايا براند عطور سعودي ناشئ، يؤمن بأن العطر ليس مجرد رائحة — بل هو حضور وهوية وذاكرة. نصنع عطوراً تحكي قصتك قبل أن تنطق بكلمة.
             </p>
-            <a href="#" className="btn-gold">
-              اعرف أكثر عنّا
-              <ArrowLeft size={16} />
-            </a>
-            <div className="brand-stats">
-              <div>
-                <div className="brand-stat-num">+50</div>
-                <div className="brand-stat-label">عطر فاخر في مجموعتنا</div>
-              </div>
-              <div>
-                <div className="brand-stat-num">+10K</div>
-                <div className="brand-stat-label">عميل يثق بشذايا</div>
-              </div>
-              <div>
-                <div className="brand-stat-num">4+</div>
-                <div className="brand-stat-label">سنوات من الخبرة</div>
-              </div>
-            </div>
-          </motion.div>
+            <p className="brand-story__text">
+              نختار أنقى المكونات من أرقى المصادر حول العالم، ونمزجها بإتقان يعكس موروثاً عربياً أصيلاً ورؤية معاصرة جريئة. كل قارورة من شذايا هي تجربة حسية متكاملة.
+            </p>
 
-          <motion.div
-            className="brand-visual"
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, delay: 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="brand-img-wrap">
-              <img src="/assets/hero-bg.png" alt="عطور شذايا" />
-            </div>
-            <div className="brand-img-card brand-img-card-bottom">
-              <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.55)', marginBottom: '0.25rem' }}>
-                مُصنَّع بمكونات
+            <div className="brand-story__stats">
+              <div>
+                <div className="stat-num">+50</div>
+                <div className="stat-label">عطراً فريداً</div>
               </div>
-              <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#fff' }}>
-                ✦ من أجود المواد الطبيعية
+              <div>
+                <div className="stat-num">+10K</div>
+                <div className="stat-label">عميل راضٍ</div>
+              </div>
+              <div>
+                <div className="stat-num">100%</div>
+                <div className="stat-label">أصالة وجودة</div>
               </div>
             </div>
-          </motion.div>
+
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <a href="#" className="btn btn-gold">تسوق الآن</a>
+              <a href="#" className="btn btn-outline-white">قصتنا كاملة</a>
+            </div>
+          </div>
+
+          {/* Images side */}
+          <div className="brand-story__images">
+            <div className="brand-img brand-img--main">
+              <img src="/assets/brand-story.webp" alt="شذايا - قصة البراند" />
+            </div>
+            <div className="brand-img brand-img--sec">
+              <img src="/assets/brand-story-2.webp" alt="شذايا - العطور" />
+            </div>
+          </div>
         </div>
       </div>
     </section>
