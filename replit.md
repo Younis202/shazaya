@@ -22,11 +22,11 @@ A complete, ultra-premium Arabic luxury perfume e-commerce store built with Reac
 
 ## Pages
 - `/` — HomePage (hero slider, features bar, collections, wide banner, best offers slider, category slider, new arrivals, brand story, **testimonials**, newsletter)
-- `/shop` — ShopPage (all products with category filter, price range slider, sort dropdown)
-- `/product/:id` — ProductPage (image gallery with thumbs, details, qty selector, tabs: desc/ingredients/reviews, related products)
-- `/about` — AboutPage (brand story, values grid, team, CTA)
-- `/contact` — ContactPage (contact form with success state, contact info cards, WhatsApp link)
-- `/account` — AccountPage (login / register toggle form)
+- `/shop` — ShopPage (cinematic dark hero + live search bar, category visual pills with icons + counts, sidebar filters with star ratings, sort dropdown)
+- `/product/:id` — ProductPage (gallery with wishlist btn, size selector with "most popular" badge, scent pyramid (هرم العطر) with top/heart/base notes, scent family badge, improved spec table, review rating bars, avatar-based reviews)
+- `/about` — AboutPage (cinematic hero with SVG bottle decoration + gold gradient title, story section with floating image, ingredients showcase (dark section), brand milestones timeline, enhanced values grid, final CTA section)
+- `/contact` — ContactPage (cinematic dark hero, split layout with info cards + store image, premium form panel, FAQ accordion section)
+- `/account` — AccountPage (full split-screen: dark brand panel with real image + quote + stats on left; premium form with gold tabs on right)
 
 ## Architecture
 ```
@@ -75,6 +75,10 @@ src/
 - ProductCard uses SVG Star icons (lucide-react) instead of text characters
 - All CSS is in one file (`src/index.css`) — no separate component CSS files
 - All fonts served locally from `/public/fonts/` — zero external font dependency
+- Inner pages (About, Shop, Contact) use dark hero sections with radial gold gradient overlays + inline SVG perfume bottle decorations
+- AccountPage is a split-screen: dark brand panel (right in RTL) with bottle image, logo, quote, features list, and stats; clean form panel (left) with gold tab buttons
+- ShopPage has a sticky category pills bar with Lucide icons + product counts, positioned between hero and product grid
+- ProductPage has a visual "هرم العطر" (scent pyramid) section with top/heart/base notes
 
 ## Color Palette
 - `--gold: #ad8538` / `--gold-dark: #875f12` / `--gold-light: #d3ab5e`
