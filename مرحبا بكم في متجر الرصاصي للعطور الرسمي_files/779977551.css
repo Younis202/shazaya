@@ -1,0 +1,19 @@
+}/* كود لتنعيم حواف السلايدر المتقدم */
+.rounded-slider {
+    border-radius: 25px !important;
+    overflow: hidden !important;
+}
+
+/* لضمان تطبيق الحواف على الصور والطبقات الداخلية للسلايدر */
+.rounded-slider img,
+.rounded-slider .swiper-wrapper,
+.rounded-slider .swiper-slide {
+    border-radius: 25px !important;
+}
+/* كود لتكبير حجم الأسعار في المتجر */
+.product-price, 
+.product-price span,
+.price {
+    font-size: 25px !important; 
+    font-weight: bold !important; 
+}
